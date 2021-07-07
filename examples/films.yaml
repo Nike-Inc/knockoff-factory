@@ -1,0 +1,22 @@
+schema public:
+  description: standard public schema
+  owner: postgres
+  privileges:
+  - PUBLIC:
+    - all
+  - postgres:
+    - all
+  table films:
+    columns:
+    - title:
+        not_null: true
+        type: character varying
+    - director:
+        type: character varying
+    - year:
+        type: character varying
+    owner: myuser
+    primary_key:
+      films_pkey:
+        columns:
+        - title

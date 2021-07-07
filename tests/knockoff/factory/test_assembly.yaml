@@ -1,0 +1,206 @@
+# Copyright 2021-present, Nike, Inc.
+# All rights reserved.
+#
+# This source code is licensed under the Apache-2.0 license found in
+# the LICENSE file in the root directory of this source tree.
+
+
+knockoff:
+  dag:
+    - name: channel-retail
+      type: part
+      source:
+        strategy: inline
+        data: [nfs, nso]
+    - name: channel-digital
+      type: part
+      source:
+        strategy: inline
+        data: [digital]
+    - name: division-shoes
+      type: part
+      source:
+        strategy: inline
+        data: [shoes]
+    - name: division-apparel
+      type: part
+      source:
+        strategy: inline
+        data: [apparel]
+    - name: gender
+      type: part
+      source:
+        strategy: inline
+        data: [men, women]
+    - name: category-shoes
+      type: part
+      source:
+        strategy: inline
+        data: [lifestyle, running, jordan, skateboarding]
+    - name: category-apparel
+      type: part
+      source:
+        strategy: inline
+        data: ['hoodies & sweatshirts', 'pants & tights', 'shorts', 'tops & t-shirts', 'jackets & vests']
+    - name: color
+      type: part
+      source:
+        strategy: faker
+        method: color_name
+        number: 5
+    - name: division-category-shoes
+      type: part
+      source:
+        strategy: cartesian-product
+        index: [division, category]
+        dependencies: [part:division-shoes, part:category-shoes]
+    - name: division-category-apparel
+      type: part
+      source:
+        strategy: cartesian-product
+        index: [division, category]
+        dependencies: [part:division-apparel, part:category-apparel]
+    - name: division-category
+      type: part
+      source:
+        strategy: concat
+        dependencies: [part:division-category-shoes, part:division-category-apparel]
+    - name: product
+      type: prototype
+      source:
+        strategy: components
+        number: 25
+        components:
+          - name: division
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:division-category.division]
+          - name: gender
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:gender]
+          - name: category
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:division-category.category]
+          - name: color
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:color]
+          - name: sku
+            type: component
+            source:
+              strategy: faker
+              method: numerify
+              args: ['%#########']
+              unique: true
+          - name: poisson_lambda
+            type: component
+            source:
+              strategy: faker
+              method: pyfloat
+              kwargs:
+                min_value: 0
+                max_value: 1
+    - name: location-retail
+      type: prototype
+      source:
+        strategy: components
+        number: 5
+        components:
+          - name: address
+            type: component
+            source:
+              strategy: faker
+              method: address
+          - name: location_id
+            type: component
+            source:
+              strategy: autoincrement
+              start_value: 1
+          - name: channel
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:channel-retail]
+    - name: location-ecomm
+      type: prototype
+      source:
+        strategy: components
+        number: 1
+        components:
+          - name: address
+            type: component
+            source:
+              strategy: faker
+              method: address
+          - name: location_id
+            type: component
+            source:
+              strategy: autoincrement
+              start_value: 0
+          - name: channel
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [part:channel-digital]
+    - name: location
+      type: prototype
+      source:
+        strategy: concat
+        dependencies: [prototype:location-retail, prototype:location-ecomm]
+    - name: transactions
+      unique:
+        - [order_id, line_id]
+      type: prototype
+      source:
+        strategy: components
+        number: 100
+        components:
+          - name: location_id
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [prototype:location.location_id]
+          - name: sku
+            type: component
+            source:
+              strategy: knockoff
+              dependencies: [prototype:product.sku]
+          - name: line_id
+            type: component
+            source:
+              strategy: faker
+              method: random_int
+              kwargs:
+                min: 1
+                max: 5
+          - name: order_id
+            type: component
+            source:
+              strategy: faker
+              method: numerify
+              args: ['%#########']
+          - name: quantity
+            type: component
+            source:
+              strategy: function
+              function: numpy.random.poisson
+              dependencies: [prototype:product.poisson_lambda]
+              input_kwargs:
+                - key: lam
+                  value: prototype:product.poisson_lambda
+                  type: dependency # or constant
+          - name: date
+            type: component
+            source:
+              strategy: faker
+              method: date_between
+              kwargs:
+                start_date: "-2y"
+                end_date: "today"
+

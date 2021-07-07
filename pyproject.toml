@@ -1,0 +1,86 @@
+[tool.poetry]
+name = "knockoff"
+version = "3.1.1"
+description = "Library for generating and bootstrapping mock data"
+authors = ["Gregory Yu <gregory.yu@nike.com>"]
+readme = "README.md"
+repository = "https://github.com/Nike-Inc/knockoff-factory"
+license = "Apache-2.0"
+packages = [
+  { include = "knockoff" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7 || ^3.8"
+psycopg2 = { version = ">=2.8.4" }
+Pyrseas = { version = ">=0.9.0", optional = true }
+pandas = { version = ">=0.24.2" }
+pyaml = { version = ">=19.12.0" }
+s3fs = { version = ">=0.2.2" }
+ipython = { version = ">=5.9.0" }
+faker = { version = ">=3.0.1" }
+dotty_dict = { version = ">=1.2.1" }
+networkx = { version = ">=2.2" }
+numpy = { version = ">=1.16.6" }
+six = { version = ">=1.12.0" }
+enum34 = { version = ">=1.1.9"}
+pyarrow = { version = ">=0.15.1" }
+joblib = { version = ">=0.14.1" }
+sqlalchemy-utils = { version = ">=0.32.12" }
+"testing.postgresql" = { version = ">=1.3.0" }
+python-interface = { version = ">=1.5.3" }
+
+[tool.poetry.dev-dependencies]
+pytest = { version = ">=4.6.9" }
+more-itertools = { version = "==5.0.0" }
+mock = { version = ">=3.0.4" }
+
+[tool.poetry.extras]
+complete = ["Pyrseas"]
+
+[build-system]
+requires = ["poetry>=1.0.0"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+knockoff = "knockoff.cli:main"
+
+[tool.poetry.plugins."knockoff.io.readers"]
+"pandas.read_csv" = "pandas:read_csv"
+"pandas.read_parquet" = "pandas:read_parquet"
+"pandas.read_json" = "pandas:read_json"
+"read_multi_parquet" = "knockoff.io:read_multi_parquet"
+"inline" = "knockoff.io:read_inline"
+"sql" = "knockoff.io:read_sql"
+
+[tool.poetry.plugins."knockoff.factory.source.table.load_strategy"]
+"io" = "knockoff.io:load_strategy_io"
+"knockoff" = "knockoff.factory.table:load_knockoff"
+
+[tool.poetry.plugins."knockoff.factory.sink.dump_strategy"]
+"sql" = "knockoff.writer.pandas:to_sql"
+"parquet" = "knockoff.writer.pandas:to_parquet"
+"noop" = "knockoff.utilities.mixin:noop"
+
+[tool.poetry.plugins."knockoff.factory.source.part.load_strategy"]
+"faker" = "knockoff.factory.counterfeit:load_faker"
+"cartesian-product" = "knockoff.factory.part:cartesian_product_strategy"
+"inline" = "knockoff.factory.part:read_part_inline"
+"concat" = "knockoff.factory.part:concat_strategy"
+"period" = "knockoff.factory.part:generate_part_periods"
+"io" = "knockoff.io:load_strategy_io"
+
+[tool.poetry.plugins."knockoff.factory.source.component.load_strategy"]
+"faker" = "knockoff.factory.counterfeit:load_faker_component_generator"
+"knockoff" = "knockoff.utilities.mixin:noop"
+"autoincrement" = "knockoff.factory.component:load_autoincrement"
+"function" = "knockoff.utilities.mixin:noop"
+
+[tool.poetry.plugins."knockoff.factory.source.prototype.load_strategy"]
+"components" = "knockoff.factory.prototype:load_prototype_from_components"
+"concat" = "knockoff.factory.part:concat_strategy"
+"io" = "knockoff.io:load_strategy_io"
+
+[tool.poetry.plugins."knockoff.factory.component.function"]
+"numpy.random.poisson" = "numpy.random:poisson"
+
