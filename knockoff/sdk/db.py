@@ -4,12 +4,12 @@
 # This source code is licensed under the Apache-2.0 license found in
 # the LICENSE file in the root directory of this source tree.
 
-
+import six
 import logging
+from abc import ABCMeta, abstractmethod
 from sqlalchemy import MetaData, Table, inspect
 from sqlalchemy.types import JSON
 from sqlalchemy.exc import NoSuchTableError
-from interface import Interface, implements, default
 
 from faker import Faker
 from numpy import random
@@ -21,21 +21,25 @@ from .dag import DagService, Node
 logger = logging.getLogger(__name__)
 
 
-class KnockoffDatabaseService(Interface):
+class KnockoffDatabaseService(six.with_metaclass(ABCMeta, object)):
+    @abstractmethod
     def reflect_table(self, name):
         return
 
+    @abstractmethod
     def insert(self, name, df, dtype=None):
         return
 
+    @abstractmethod
     def reflect_unique_constraints(self, name):
         return
 
+    @abstractmethod
     def has_table(self, name):
         return
 
 
-class DefaultDatabaseService(implements(KnockoffDatabaseService)):
+class DefaultDatabaseService(KnockoffDatabaseService):
     def __init__(self, engine=None, **kwargs):
         self.engine = engine or get_engine()
         self.kwargs = {
@@ -138,7 +142,20 @@ class KnockoffDB(object):
         for node in self.dag_service.iter_topologically():
             node.table.prepare(database_service=self.database_service)
 
+
+    def build(self):
+        dfs = {}
+        # TODO: parallelize?
+        for node in self.dag_service.iter_topologically():
+            table = node.table
+            table.prepare(database_service=self.database_service)
+            if not node.insert:
+                _ = node.table.build() # create table needed downstream
+            dfs[table.name] = table.df
+        return dfs
+
     def insert(self):
+        # TODO: Should we use the dfs from self.build()?
         # TODO: parallelize?
         for node in self.dag_service.iter_topologically():
             table = node.table

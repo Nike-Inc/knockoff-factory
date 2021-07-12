@@ -5,26 +5,28 @@
 # the LICENSE file in the root directory of this source tree.
 
 
+import six
+from abc import ABCMeta, abstractmethod
 from operator import itemgetter
 
-from interface import Interface, implements
 
-
-class KnockoffConstraint(Interface):
+class KnockoffConstraint(six.with_metaclass(ABCMeta, object)):
+    @abstractmethod
     def reset(self):
-        # TODO: reset to initial state
+        """reset to initial state"""
         return
 
+    @abstractmethod
     def check(self, record):
-        # TODO if record would satisfy constraint return True
-        return True
+        """if record would satisfy constraint return True"""
+        return
 
     def add(self, record):
         if not self.check(record):
             raise ValueError('Should raise a constraint error here')
 
 
-class KnockoffUniqueConstraint(implements(KnockoffConstraint)):
+class KnockoffUniqueConstraint(KnockoffConstraint):
     def __init__(self, keys, name=None):
         self.name = name # is this necessary?
         assert len(keys) > 0

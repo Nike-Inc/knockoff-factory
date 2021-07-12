@@ -6,25 +6,25 @@
 
 import logging
 
-from knockoff.utilities.mixin import FactoryMixin
+from knockoff.utilities.mixin import ResourceLocatorMixin
 
 
 logger = logging.getLogger(__name__)
 
 
-class TableSourceFactory(FactoryMixin, object):
+class TableSourceFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.factory.source.table.load_strategy"
 
 
-class PartSourceFactory(FactoryMixin, object):
+class PartSourceFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.factory.source.part.load_strategy"
 
 
-class ComponentSourceFactory(FactoryMixin, object):
+class ComponentSourceFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.factory.source.component.load_strategy"
 
 
-class PrototypeSourceFactory(FactoryMixin, object):
+class PrototypeSourceFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.factory.source.prototype.load_strategy"
 
 

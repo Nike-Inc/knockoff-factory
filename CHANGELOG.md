@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
+#### 4.x Releases
+- `4.0.x` Releases - [4.0.0](#1)
+
 #### 3.x Releases
 - `3.1.x` Releases - [3.1.1](#311) | [3.1.0](#310)
 - `3.0.x` Releases - [3.0.0](#300)
@@ -35,6 +38,39 @@ All notable changes to this project will be documented in this file.
 
 #### Fixed
 
+---
+
+## 4.0.0
+
+#### Added
+- ColumnFactory for providing factory functions instead of requiring as a tuple (column, factory) 
+    - Added by [Gregory Yu](https://github.com/gregyu)
+- `build` method for KnockoffDB to enable building dataframes without inserting into DB
+    - Added by [Gregory Yu](https://github.com/gregyu)
+- Unit tests for column and collection factories
+    - Added by [Gregory Yu](https://github.com/gregyu)
+- `run` CLI command for loading data into database from sdk configuration 
+    - Added by [Gregory Yu](https://github.com/gregyu)
+- Add Blueprint class to sdk for more composable configuration 
+    - Added by [Gregory Yu](https://github.com/gregyu)    
+- Added unit tests for knockoff.utilities.mixin
+    - Added by [Gregory Yu](https://github.com/gregyu)
+
+
+#### Updated
+- Made CLI extensible with injectable subcommands 
+    - Updated by [Gregory Yu](https://github.com/gregyu)
+- Moved previous CLI to `legacy` subcommand for loading data into database using yaml configuration
+    - Updated by [Gregory Yu](https://github.com/gregyu)
+- Renamed knockoff.utilities.mixin:FactoryMixin to knockoff.utilities.mixin:ResourceLocatorMixin
+    - Updated by [Gregory Yu](https://github.com/gregyu)
+- Remove dependency on python-interface, use abc instead
+    - Updated by [Gregory Yu](https://github.com/gregyu)
+    
+#### Fixed
+- Fixed legacy CLI command by resolving breaking changes in sqlalchemy engine interface
+    - Fixed by [Gregory Yu](https://github.com/gregyu)
+    
 ---
 
 ## 3.1.1

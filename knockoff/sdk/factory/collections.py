@@ -6,7 +6,6 @@
 
 
 import pandas as pd
-from knockoff.sdk.table import KnockoffTable
 from .next_strategy.df import sample_df
 from .next_strategy.table import sample_table
 
@@ -40,6 +39,7 @@ class KnockoffFactory(object):
     def __call__(self):
         if not self.initialized:
             self.initialize()
+        # TODO: assert that we receive a dict like object here?
         record = self.next(self.obj)
         out = {}
         for col in self.columns:
@@ -56,7 +56,6 @@ class KnockoffTableFactory(KnockoffFactory):
                  next_strategy_factory=None):
         if (next_strategy_factory is None) and (next_strategy_callable is None):
             next_strategy_callable = sample_table
-        assert isinstance(table, KnockoffTable) # TODO : do we actually need this assert?
         super(KnockoffTableFactory, self).__init__(table,
                                                    columns=columns,
                                                    rename=rename,
@@ -98,4 +97,3 @@ class KnockoffTransform(object):
 
     def __call__(self):
         return self.transform(self.factory())
-

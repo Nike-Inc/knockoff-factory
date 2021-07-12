@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "knockoff"
-version = "3.1.1"
+version = "4.0.0"
 description = "Library for generating and bootstrapping mock data"
 authors = ["Gregory Yu <gregory.yu@nike.com>"]
 readme = "README.md"
@@ -28,7 +28,7 @@ pyarrow = { version = ">=0.15.1" }
 joblib = { version = ">=0.14.1" }
 sqlalchemy-utils = { version = ">=0.32.12" }
 "testing.postgresql" = { version = ">=1.3.0" }
-python-interface = { version = ">=1.5.3" }
+dependency_injector = "^4.34.0"
 
 [tool.poetry.dev-dependencies]
 pytest = { version = ">=4.6.9" }
@@ -43,7 +43,12 @@ requires = ["poetry>=1.0.0"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
-knockoff = "knockoff.cli:main"
+knockoff = "knockoff.cli_v2:main"
+
+[tool.poetry.plugins."knockoff.cli.command"]
+"run" = "knockoff.command.run:main"
+"version" = "knockoff.command.version:main"
+"legacy" = "knockoff.cli:main"
 
 [tool.poetry.plugins."knockoff.io.readers"]
 "pandas.read_csv" = "pandas:read_csv"
@@ -83,4 +88,3 @@ knockoff = "knockoff.cli:main"
 
 [tool.poetry.plugins."knockoff.factory.component.function"]
 "numpy.random.poisson" = "numpy.random:poisson"
-
