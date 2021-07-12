@@ -6,6 +6,7 @@
 
 
 import pytest
+from unittest import TestCase
 
 from knockoff.utilities.mixin import ResourceLocatorMixin
 from knockoff.exceptions import ResourceNotFoundError
@@ -42,3 +43,7 @@ class TestMixin(object):
     def test_get_resource_no_entry_point(self, resource_locator):
         with pytest.raises(NoEntryPointGroupError):
             ResourceLocatorMixin().register_resources()
+
+    def test_get_resource_names(self, resource_locator):
+        TestCase().assertSetEqual(set(resource_locator.get_resource_names()),
+                                  set(['dummy']))

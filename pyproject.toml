@@ -34,6 +34,7 @@ dependency_injector = "^4.34.0"
 pytest = { version = ">=4.6.9" }
 more-itertools = { version = "==5.0.0" }
 mock = { version = ">=3.0.4" }
+pytest-cov = "^2.12.1"
 
 [tool.poetry.extras]
 complete = ["Pyrseas"]
