@@ -55,6 +55,8 @@ All notable changes to this project will be documented in this file.
     - Added by [Gregory Yu](https://github.com/gregyu)    
 - Added unit tests for knockoff.utilities.mixin
     - Added by [Gregory Yu](https://github.com/gregyu)
+- Added tempdb module and TempDatabaseService class
+    - Added by [Gregory Yu](https://github.com/gregyu)
 
 
 #### Updated
@@ -66,6 +68,9 @@ All notable changes to this project will be documented in this file.
     - Updated by [Gregory Yu](https://github.com/gregyu)
 - Remove dependency on python-interface, use abc instead
     - Updated by [Gregory Yu](https://github.com/gregyu)
+- Updated internal knockoff fixtures to use TempDatabaseService
+    - Updated by [Gregory Yu](https://github.com/gregyu)
+
     
 #### Fixed
 - Fixed legacy CLI command by resolving breaking changes in sqlalchemy engine interface
