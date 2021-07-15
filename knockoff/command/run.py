@@ -21,9 +21,6 @@ logger = logging.getLogger(__name__)
 
 def run(knockoff_db: KnockoffDB,
         blueprint):
-    # response = input("Press any key to exit. Databases created "
-    #                  "without the --persistent flag will be destroyed.")
-    # logger.info(f"Received {response}. Goodbye!")
     dfs, knockoff_db = blueprint.construct(knockoff_db)
     knockoff_db.insert()
     logger.info("knockoff done.")

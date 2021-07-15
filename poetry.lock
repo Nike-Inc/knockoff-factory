@@ -888,7 +888,7 @@ complete = ["Pyrseas"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7 || ^3.8"
-content-hash = "38f9369be4302eb81f29b4213e7351b9ff6ae6dfaa3b922e426b1c3a550ce1de"
+content-hash = "138362459f243153ba697d5f3382f0e163f094091c4ee00f6bea2b849190b5dc"
 
 [metadata.files]
 aiobotocore = [

@@ -39,7 +39,6 @@ class KnockoffFactory(object):
     def __call__(self):
         if not self.initialized:
             self.initialize()
-        # TODO: assert that we receive a dict like object here?
         record = self.next(self.obj)
         out = {}
         for col in self.columns:
