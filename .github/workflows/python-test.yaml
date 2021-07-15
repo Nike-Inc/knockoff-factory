@@ -21,7 +21,7 @@ jobs:
     # Setup postgres service
     services:
       postgres:
-        image: postgres:11.7
+        image: postgres:11.9
         env:
           POSTGRES_USER: postgres
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -49,7 +49,6 @@ jobs:
       - name: Install package
         run: |
           poetry config virtualenvs.create false && poetry install
-          poetry run pip install pytest-cov
         env:
           PIP_DEFAULT_TIMEOUT: "60"
       - name: Run Test and generate coverate report

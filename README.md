@@ -4,8 +4,12 @@ Knockoff Factory
 [![Test](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/python-test.yaml/badge.svg)](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/python-test.yaml) 
 [![PyPi Release](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/python-build.yaml/badge.svg)](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/python-build.yaml) 
 [![Docker Build](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/docker-build.yaml/badge.svg)](https://github.com/Nike-Inc/knockoff-factory/actions/workflows/docker-build.yaml)
+![License](https://img.shields.io/pypi/l/knockoff)
+![Python Versions](https://img.shields.io/pypi/pyversions/knockoff)
+![Docker Image Size](https://img.shields.io/docker/image-size/nikelab222/knockoff-factory/latest)
+![Python Wheel](https://img.shields.io/pypi/wheel/knockoff)
 
-A library for generating fake data and populating database tables.
+A library for generating mock data and creating database fixtures that can be used for unit testing.
 
 # Run poetry install/update with psycopg2
 
@@ -66,9 +70,16 @@ following environment variable
 export TEST_POSTGRES_ENABLED=0
 ```
 
+### Knockoff Python Based Configuration
 
-### Knockoff Configuration
+We will be providing documentation along with example repo's for
+the python based configuration using the knockoff.sdk modules.
 
+
+### Knockoff Legacy Yaml Based Configuration
+Note: This yaml based configuration has been moved under the legacy subcommand
+for knockoff and a new yaml based configuration will be introduced that 
+relies on the same objects in python based configuartion (knockoff.sdk). 
 
 #### Creating Databases
 Knockoff will start by creating any specified databases. This section
@@ -256,7 +267,7 @@ postgres@localhost:mydb> select * from transactions limit 10;
 
 #### Run the example:
 
-1. Run postgres: `docker run --rm  --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432  postgres:11.4`
+1. Run postgres: `docker run --rm  --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432  postgres:11.9`
     * Terminate existing container with `docker kill pg-docker`
     * Note: The example assumes you're running with *POSTGRES_PASSWORD=docker* and on port *5432*
 2. Checkout the repo or download the examples folder
@@ -267,15 +278,17 @@ docker run --rm -v $PWD/examples:/examples \
 -e KNOCKOFF_DB_USER='postgres' \
 -e KNOCKOFF_DB_PASSWORD='docker' \
 -e KNOCKOFF_DB_NAME='knockoff' \
--e KNOCKOFF_CONFIG=/examples/knockoff.yaml nikelab222/knockoff-factory:latest knockoff
+-e KNOCKOFF_CONFIG=/examples/knockoff.yaml knockoff-factory:latest knockoff legacy
 ```
 Note: if you are loading data from an s3 bucket you have access to, you can enable your docker
 container access to those credentials by adding `-v ~/.aws:/root/.aws` to the `docker run` command.
 
 
 ### Future work
-* Add documentation for SDK
+* Add documentation and examples for SDK
+* Add yaml based configuration for SDK
+* Make extensible generic output for KnockffDB.insert (csv, parquet, etc)
+* Enable append option for KnockoffDB.insert
 * Autodiscover and populate all tables by using reflection and building dependency graph with foreign key relationships
-* Update CLI and yaml configuration to use SDK
 * Documentation / use-cases
 * Parallelize execution of dag. (e.g. https://ipython.org/ipython-doc/stable/parallel/dag_dependencies.html)

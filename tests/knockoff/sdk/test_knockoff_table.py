@@ -16,7 +16,7 @@ from sqlalchemy.types import Integer, String, Boolean, DateTime, BigInteger, Flo
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
 from knockoff.sdk.db import KnockoffDB, DefaultDatabaseService
-from knockoff.sdk.factory.column import ChoiceFactory, FakerFactory
+from knockoff.sdk.factory.column import ChoiceFactory, FakerFactory, ColumnFactory
 from knockoff.sdk.factory.collections import KnockoffTableFactory, KnockoffDataFrameFactory
 from knockoff.sdk.factory.next_strategy.df import cycle_df_factory
 from knockoff.exceptions import AttemptLimitReached
@@ -290,3 +290,21 @@ class TestKnockoffTable(object):
         assert df2.shape == (30, 3)
         assert (pd.concat([df1]*10).reset_index(drop=True)
                 .equals(df2[['col1', 'col2']]))
+
+    def test_table_using_column_factory(self):
+        table = KnockoffTable(
+            "sometable",
+            columns=["a", "b", "c"],
+            factories=[
+                ColumnFactory("a", lambda: 1),
+                ColumnFactory("b", lambda: 2),
+                ColumnFactory("c", lambda a,b: a + b, depends_on=["a", "b"]),
+            ],
+            size=3
+        )
+        actual = table.build()
+        expected = pd.DataFrame({"a": [1]*3,
+                                 "b": [2]*3,
+                                 "c": [3]*3})
+        assert actual.equals(expected)
+        

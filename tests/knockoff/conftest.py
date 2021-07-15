@@ -12,35 +12,37 @@ from collections import namedtuple
 from faker import Faker
 from numpy import random
 
-from knockoff.testing_postgresql import get_postgresql
 from knockoff.orm import get_engine, clear_default_env_vars, KNOCKOFF_DB_URI
-
+from knockoff.tempdb.db import TempDatabaseService
 
 MockDB = namedtuple('MockDB', ["engine", "url"])
-
 
 KNOCKOFF_TEST_DB_URI = "KNOCKOFF_TEST_DB_URI"
 
 
 @pytest.fixture(scope="function")
 def empty_db():
+    """
+    Creates an empty database with tables from sample.data_model initialized
+    """
+
+    # setup
     clear_default_env_vars()
-
     url = os.getenv(KNOCKOFF_TEST_DB_URI, "postgresql://postgres@localhost:5432/postgres")
-    postgresql = get_postgresql(url=url)
 
-    os.environ[KNOCKOFF_DB_URI] = postgresql.url()
+    temp_db_service = TempDatabaseService(url)
+    # setup the database and initialize the tables
+    temp_url = temp_db_service.start()
 
+    os.environ[KNOCKOFF_DB_URI] = temp_url
     engine = get_engine()
-
-    mock_db = MockDB(engine, postgresql.url())
+    mock_db = MockDB(engine, temp_url)
 
     yield mock_db
 
     # tear down
+    temp_db_service.stop()
     clear_default_env_vars()
-    engine.dispose()
-    postgresql.stop()
 
 
 @pytest.fixture(scope="function")

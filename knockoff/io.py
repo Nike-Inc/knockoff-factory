@@ -14,7 +14,7 @@ import s3fs
 from pyarrow import parquet as pq
 
 from .utilities.functools import call_with_args_kwargs
-from .utilities.mixin import FactoryMixin
+from .utilities.mixin import ResourceLocatorMixin
 from .orm import get_connection
 
 if sys.version_info[0] < 3:
@@ -25,11 +25,11 @@ else:
 logger = logging.getLogger(__name__)
 
 
-class ReaderFactory(FactoryMixin, object):
+class ReaderFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.io.readers"
 
 
-class WriterFactory(FactoryMixin, object):
+class WriterFactory(ResourceLocatorMixin, object):
     entry_point_group = "knockoff.io.writers"
 
 
@@ -61,4 +61,3 @@ def read_multi_parquet(path):
 def read_sql(sql, database, **kwargs):
     with get_connection(database) as conn:
         return pd.read_sql_query(sql, conn, **kwargs)
-

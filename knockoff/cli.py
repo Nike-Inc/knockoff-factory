@@ -23,6 +23,7 @@ from .utilities.orm.sql import EngineBuilder
 from . import orm, __version__
 from .io import ReaderFactory
 from .knockoff import Knockoff
+from .cli_v2 import setup_logger
 
 
 logger = logging.getLogger(__name__)
@@ -54,14 +55,17 @@ def create_databases(create_database_configs):
         else:
             engine = orm.get_engine()
         assert_supported_db_action(db_type)
-        engine.url.database = config["name"]
-        if sqlalchemy_utils.database_exists(engine.url):
+
+        parts = str(engine.url).split('/')
+        url = '/'.join(parts[:-1] + [config['name']])
+
+        if sqlalchemy_utils.database_exists(url):
             logger.info("{} already exists. Skipping creation."
                         .format(config["name"]))
         else:
             # the following two lines remove configuration to specific db
-            engine.url.database = None
-            engine = create_engine(engine.url)
+            url = '/'.join(parts[:-1])
+            engine = create_engine(url)
             orm.create_database(config['name'], engine=engine)
         for user_config in config.get('users', []):
             assert_supported_db_action(db_type)
@@ -104,17 +108,6 @@ def load_df_from_source(source):
     kwargs = source.get('kwargs')
 
     return call_with_args_kwargs(reader, args, kwargs)
-
-
-def setup_logger(verbose=False):
-    level = logging.DEBUG if verbose else (os.environ
-                                             .get('KNOCKOFF_LOG_LEVEL',
-                                                  'INFO').upper())
-    format_ = os.environ.get('KNOCKOFF_LOG_FORMAT',
-                            ('[%(asctime)s] [%(name)s] [%(processName)s]'
-                             ' [%(levelname)s]: %(message)s'))
-    logging.basicConfig(format=format_,
-                        level=level)
 
 
 def parse_args(argv=None):
