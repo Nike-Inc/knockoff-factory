@@ -10,6 +10,7 @@ from unittest import TestCase
 from mock import MagicMock, patch
 
 from knockoff.sdk.factory.column import ColumnFactory, ChoiceFactory, FakerFactory
+from knockoff.sdk.table import KnockoffTable
 
 
 class TestColumn(object):
@@ -52,3 +53,20 @@ class TestColumn(object):
             factory(size=2, p=p2, replace=True)
             mock_choice.assert_called_with(choices, p=p2,
                                            replace=True, size=2)
+
+    def test_depends_on(self):
+        add_one_to_col_factory = ColumnFactory(
+            "col+1",
+            lambda col: col+1,
+            depends_on="col"
+        )
+        assert add_one_to_col_factory(col=2)["col+1"] == 3
+
+    def test_depends_on_missing_arg(self):
+        add_one_to_col_factory = ColumnFactory(
+            "col+1",
+            lambda col: col+1,
+            depends_on="col"
+        )
+        with pytest.raises(TypeError):
+            add_one_to_col_factory()

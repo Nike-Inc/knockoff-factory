@@ -10,9 +10,10 @@ from faker import Faker
 
 
 class ColumnFactory(object):
-    def __init__(self, column, callable_):
+    def __init__(self, column, callable_, depends_on=None):
         self.column = column
         self.callable = callable_
+        self.depends_on = depends_on
 
     def __call__(self, *args, **kwargs):
         return {self.column: self.callable(*args,**kwargs)}
