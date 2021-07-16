@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.1.x` Releases - [4.1.0](#410)
+- `4.1.x` Releases - [4.1.0](#410) | [4.1.1](#411)
 - `4.0.x` Releases - [4.0.0](#400)
 
 #### 3.x Releases
@@ -38,6 +38,21 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+
+## 4.1.1
+
+#### Added
+- Documentation and jupyter notebook for TempDatabaseService
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#3](https://github.com/Nike-Inc/knockoff-factory/pull/3)
+
+#### Updated
+- Moved legacy YAML based knockoff cli from README.md to legacy.MD 
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#3](https://github.com/Nike-Inc/knockoff-factory/pull/3)
+    
+#### Fixed
+
 ---
 
 ## 4.1.0
