@@ -40,6 +40,7 @@ pytest = { version = ">=4.6.9" }
 more-itertools = { version = "==5.0.0" }
 mock = { version = ">=3.0.4" }
 pytest-cov = { version = "~2.12.1" }
+jupyter = { version = "~1.0.0" }
 
 [tool.poetry.extras]
 complete = ["Pyrseas"]

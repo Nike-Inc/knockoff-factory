@@ -45,7 +45,8 @@ All notable changes to this project will be documented in this file.
 #### Added
 - CollectionsFactory for providing factory functions that return multiple columns 
     - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#2](https://github.com/Nike-Inc/knockoff-factory/pull/2)
-
+- Documentation and jupyter notebook for KnockoffTable
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#2](https://github.com/Nike-Inc/knockoff-factory/pull/2)
 
 #### Updated
     
