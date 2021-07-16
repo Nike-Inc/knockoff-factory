@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
+- `4.1.x` Releases - [4.1.0](#410)
 - `4.0.x` Releases - [4.0.0](#400)
 
 #### 3.x Releases
@@ -36,6 +37,19 @@ All notable changes to this project will be documented in this file.
 
 #### Removed
 
+#### Fixed
+---
+
+## 4.1.0
+
+#### Added
+- CollectionsFactory for providing factory functions that return multiple columns 
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#2](https://github.com/Nike-Inc/knockoff-factory/pull/2)
+- Documentation and jupyter notebook for KnockoffTable
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#2](https://github.com/Nike-Inc/knockoff-factory/pull/2)
+
+#### Updated
+    
 #### Fixed
 
 ---

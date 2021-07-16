@@ -10,6 +10,42 @@ from .next_strategy.df import sample_df
 from .next_strategy.table import sample_table
 
 
+class CollectionsFactory(object):
+    def __init__(self,
+                 callable_,
+                 columns=None,
+                 rename=None,
+                 drop=None,
+                 depends_on=None):
+        self.callable = callable_
+        self.depends_on = depends_on
+        self.columns = columns
+        self.rename = rename or {}
+        self.drop = set(drop or [])
+
+    def __call__(self, *args, **kwargs):
+        record = self.callable(*args, **kwargs)
+        return resolve_columns(record,
+                               columns=self.columns,
+                               rename=self.rename,
+                               drop=self.drop)
+
+
+def resolve_columns(record,
+                    columns=None,
+                    rename=None,
+                    drop=None):
+    rename = rename or {}
+    drop = set(drop or [])
+    out = {}
+    columns = columns or record.keys()
+    for col in columns:
+        if col in drop:
+            continue
+        out[rename.get(col, col)] = record[col]
+    return out
+
+
 class KnockoffFactory(object):
     def __init__(self, obj, columns=None, rename=None, drop=None,
                  next_strategy_callable=None,

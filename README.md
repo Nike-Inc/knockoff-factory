@@ -11,6 +11,46 @@ Knockoff Factory
 
 A library for generating mock data and creating database fixtures that can be used for unit testing.
 
+Table of content
+* [Installation](#installation)
+* [Changelog](#changelog)
+* [Documentation](#documentation)
+* [Future Work](#Future-work)
+
+# <a name="installation"></a> Installation
+```shell script
+pip install knockoff
+```
+
+
+# <a name="changelog"></a> Changelog
+
+See the [changelog](CHANGELOG.md) for a history of notable changes to knockoff.
+
+# <a name="documentation"></a> Documentation
+
+We are working on adding more documentation and examples!  
+
+* knockoff sdk
+    * [KnockoffTable](notebook/KnockoffTable.ipynb)
+    * KnockoffDB
+        * KnockoffDatabaseService
+* TempDatabaseService
+* knockoff cli
+
+
+# <a name="future-work"></a> Future work
+* Further documentation and examples for SDK
+* Add yaml based configuration for SDK
+* Make extensible generic output for KnockffDB.insert (csv, parquet, etc)
+* Enable append option for KnockoffDB.insert
+* Autodiscover and populate all tables by using reflection and building dependency graph with foreign key relationships
+* Parallelize execution of dag. (e.g. https://ipython.org/ipython-doc/stable/parallel/dag_dependencies.html)
+
+
+Local development setup and legacy documentation 
+---
+
 # Run poetry install/update with psycopg2
 
 Requirements:
@@ -69,12 +109,6 @@ following environment variable
 ```bash
 export TEST_POSTGRES_ENABLED=0
 ```
-
-### Knockoff Python Based Configuration
-
-We will be providing documentation along with example repo's for
-the python based configuration using the knockoff.sdk modules.
-
 
 ### Knockoff Legacy Yaml Based Configuration
 Note: This yaml based configuration has been moved under the legacy subcommand
@@ -284,11 +318,3 @@ Note: if you are loading data from an s3 bucket you have access to, you can enab
 container access to those credentials by adding `-v ~/.aws:/root/.aws` to the `docker run` command.
 
 
-### Future work
-* Add documentation and examples for SDK
-* Add yaml based configuration for SDK
-* Make extensible generic output for KnockffDB.insert (csv, parquet, etc)
-* Enable append option for KnockoffDB.insert
-* Autodiscover and populate all tables by using reflection and building dependency graph with foreign key relationships
-* Documentation / use-cases
-* Parallelize execution of dag. (e.g. https://ipython.org/ipython-doc/stable/parallel/dag_dependencies.html)

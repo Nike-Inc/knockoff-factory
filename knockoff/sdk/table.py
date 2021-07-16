@@ -18,6 +18,7 @@ from knockoff.exceptions import FactoryNotFound, AttemptLimitReached
 
 
 from .factory.column import ColumnFactory
+from .factory.collections import CollectionsFactory
 
 
 logger = logging.getLogger(__name__)
@@ -180,7 +181,7 @@ class KnockoffTable(object):
                                "Use ColumnFactory instead")
                 col, factory = factory
                 key_values = {col: factory()}
-            elif (isinstance(factory, (ColumnFactory,)) and
+            elif (isinstance(factory, (ColumnFactory, CollectionsFactory)) and
                    factory.depends_on):
                 kwargs = {key: data[key] for key in factory.depends_on}
                 key_values = factory(**kwargs)
