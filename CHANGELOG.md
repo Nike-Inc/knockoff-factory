@@ -46,6 +46,8 @@ All notable changes to this project will be documented in this file.
 #### Added
 - Documentation and jupyter notebook for TempDatabaseService
     - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#3](https://github.com/Nike-Inc/knockoff-factory/pull/3)
+- Documentation and jupyter notebook for KnockoffDB
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#3](https://github.com/Nike-Inc/knockoff-factory/pull/3)
 
 #### Updated
 - Moved legacy YAML based knockoff cli from README.md to legacy.MD 

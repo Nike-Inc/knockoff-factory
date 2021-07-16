@@ -29,7 +29,7 @@ class KnockoffConstraint(six.with_metaclass(ABCMeta, object)):
 class KnockoffUniqueConstraint(KnockoffConstraint):
     def __init__(self, keys, name=None):
         self.name = name # is this necessary?
-        assert len(keys) > 0
+        assert isinstance(keys, (list, tuple)) and len(keys) > 0
         self.keys = keys
         self.curr_set = set()
         self.parse = itemgetter(*self.keys)

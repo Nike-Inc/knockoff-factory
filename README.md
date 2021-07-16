@@ -34,10 +34,10 @@ We are working on adding more documentation and examples!
 
 * Knockoff SDK
     * [KnockoffTable](notebook/KnockoffTable.ipynb)
-    * KnockoffDB
-        * KnockoffDatabaseService
+    * [KnockoffDB](notebook/KnockoffDB.ipynb)
 * [TempDatabaseService](notebook/TempDatabaseService.ipynb)
 * Knockoff CLI
+* Unit Testing Example: Sample App
 
 
 # <a name="unit-tests"></a> Unit Tests
