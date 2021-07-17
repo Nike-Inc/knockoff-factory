@@ -66,3 +66,7 @@ target/
 
 # pyenv
 .python-version
+
+# jupyter
+*.ipynb_checkpoints/
+

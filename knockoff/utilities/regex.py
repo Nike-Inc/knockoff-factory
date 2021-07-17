@@ -28,12 +28,12 @@ class RegexParser(six.with_metaclass(ABCMeta, object)):
 
     @abstractproperty2to3
     def compiled_regex(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @classmethod
     @abstractmethod
     def make(cls, **kwargs):
-        return
+        return  # pragma: no cover
 
     @classmethod
     def parse(cls, string):

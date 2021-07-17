@@ -14,12 +14,12 @@ class KnockoffConstraint(six.with_metaclass(ABCMeta, object)):
     @abstractmethod
     def reset(self):
         """reset to initial state"""
-        return
+        return  # pragma: no cover
 
     @abstractmethod
     def check(self, record):
         """if record would satisfy constraint return True"""
-        return
+        return  # pragma: no cover
 
     def add(self, record):
         if not self.check(record):

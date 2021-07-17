@@ -39,11 +39,11 @@ class KnockoffCLI(ResourceLocatorMixin):
                     command=key, description=description[key]
                 ))
             except KeyError:
-                raise Exception(f"Missing usage description for {key}")
+                raise TypeError(f"Missing usage description for {key}")
 
         return "\n".join(_usage)
 
-    def __init__(self):
+    def __init__(self, argv=None):
         parser = argparse.ArgumentParser(
             description="knockoff cli",
             usage=self.usage
@@ -54,9 +54,10 @@ class KnockoffCLI(ResourceLocatorMixin):
                             metavar="COMMAND")
         # parse_args defaults to [1:] for args, but you need to
         # exclude the rest of the args too, or validation will fail
-        args = parser.parse_args(sys.argv[1:2])
+        argv = argv or sys.argv
+        args = parser.parse_args(argv[1:2])
         command = self.get_resource(args.command)
-        command(sys.argv[2:])
+        command(argv[2:])
 
 
 def setup_logger(verbose=False):
@@ -70,10 +71,10 @@ def setup_logger(verbose=False):
                         level=level)
 
 
-def main():
+def main(argv=None):
     setup_logger()
-    KnockoffCLI()
+    KnockoffCLI(argv=argv)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
