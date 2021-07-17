@@ -24,19 +24,19 @@ logger = logging.getLogger(__name__)
 class KnockoffDatabaseService(six.with_metaclass(ABCMeta, object)):
     @abstractmethod
     def reflect_table(self, name):
-        return
+        return  # pragma: no cover
 
     @abstractmethod
     def insert(self, name, df, dtype=None):
-        return
+        return  # pragma: no cover
 
     @abstractmethod
     def reflect_unique_constraints(self, name):
-        return
+        return  # pragma: no cover
 
     @abstractmethod
     def has_table(self, name):
-        return
+        return  # pragma: no cover
 
 
 class DefaultDatabaseService(KnockoffDatabaseService):

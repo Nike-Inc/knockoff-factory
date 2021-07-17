@@ -6,32 +6,49 @@
 
 
 import argparse
-import inspect
 import sys
 import logging
 
-from dependency_injector import containers
-
-from knockoff.utilities.importlib_utils import resolve_package_name
+from knockoff.utilities.ioc import get_container
 from knockoff.sdk.db import KnockoffDB, DefaultDatabaseService
-
+from knockoff.sdk.blueprint import Blueprint
+from knockoff.tempdb.db import TempDatabaseService
 
 logger = logging.getLogger(__name__)
 
 
+def testable_input(prompt=None, **kwargs):
+    """pass through input so this can be unit tested"""
+    input(prompt)
+
+
 def run(knockoff_db: KnockoffDB,
-        blueprint):
+        blueprint: Blueprint,
+        temp_db: TempDatabaseService = None):
+
+    if temp_db:
+        temp_url = temp_db.start()
+        logger.info("TempDatabaseService created temp database:\n"
+                    f"{temp_url}")
+
     dfs, knockoff_db = blueprint.construct(knockoff_db)
     knockoff_db.insert()
+    logger.info("knockoff data successfully loaded into database.")
+
+    if temp_db:
+        try:
+            testable_input(
+                "Press Enter when finished to destroy temp database.",
+                # the following kwargs can be used by a mock for assertions
+                test_temp_url=temp_url,
+                test_temp_db=temp_db,
+                test_blueprint=blueprint,
+                test_knockoff_db=knockoff_db,
+            )
+        finally:
+            temp_db.stop()
+
     logger.info("knockoff done.")
-
-
-def _validate_container_class(cls, package_name):
-    if not inspect.isclass(cls) or not issubclass(cls, containers.DeclarativeContainer):
-        raise TypeError(f"{package_name} resolves to "
-                         f"{cls} instead of "
-                         f"a subclass of dependency_injector"
-                         f".containers.DeclarativeContainer")
 
 
 def seed(i):
@@ -55,33 +72,33 @@ def parse_args(argv=None):
                         help="Default KnockoffContainer")
     parser.add_argument("--yaml-config",
                         help="Container configuration")
+    parser.add_argument("--ephemeral",
+                        action="store_true",
+                        help="flag to run interactively with an ephemeral database")
+    parser.add_argument("--tempdb-container",
+                        default="knockoff.tempdb.container:TempDBContainer",
+                        help="Default TempDBContainer")
     parser.add_argument("-s", "--seed", type=int,
                         help="Set seed")
     return parser.parse_args(argv)
 
 
 def main(argv=None):
-    """
-    TODO:
-            - Add ephemeral flag for spinning up temporary database that's destroyed
-              after program completion (with interactive program)
-    """
     args = parse_args(argv)
-
-    KnockoffContainer = resolve_package_name(args.container)
-    _validate_container_class(KnockoffContainer, args.container)
-    container = KnockoffContainer()
-    container.init_resources()
-    if args.yaml_config:
-        container.config.from_yaml(args.yaml_config)
-    container.wire(modules=[sys.modules[__name__]])
 
     if args.seed:
         seed(args.seed)
 
+    container = get_container(args.container, args.yaml_config)
     knockoff_db = container.knockoff_db()
     blueprint = container.blueprint()
-    run(knockoff_db, blueprint)
+    temp_db = None
+
+    if args.ephemeral:
+        tempdb_container = get_container(args.tempdb_container, args.yaml_config)
+        temp_db = tempdb_container.temp_db()
+
+    run(knockoff_db, blueprint, temp_db=temp_db)
 
 
 if __name__ == "__main__":

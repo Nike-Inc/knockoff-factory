@@ -9,9 +9,6 @@ import six
 import pytest
 from operator import itemgetter
 import pandas as pd
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import JSON, Column, PrimaryKeyConstraint, UniqueConstraint
-from sqlalchemy.types import Integer, String, Boolean, DateTime, BigInteger, Float
 
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
@@ -22,24 +19,7 @@ from knockoff.sdk.factory.next_strategy.df import cycle_df_factory
 from knockoff.exceptions import AttemptLimitReached
 from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
 
-Base = declarative_base()
-
-SOMETABLE = "sometable"
-
-
-class SomeTable(Base):
-    __tablename__ = SOMETABLE
-    id = Column(BigInteger, autoincrement=True)
-    str_col = Column(String)
-    bool_col = Column(Boolean)
-    dt_col = Column(DateTime)
-    int_col = Column(Integer)
-    float_col = Column(Float)
-    json_col = Column(JSON)
-    __table_args__ = (
-        PrimaryKeyConstraint('id'),
-        UniqueConstraint('str_col', 'int_col')
-    )
+from tests.knockoff.data_model import Base, SOMETABLE, SomeTable
 
 
 @pytest.fixture(scope="function")

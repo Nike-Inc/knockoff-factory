@@ -11,6 +11,7 @@ from sqlalchemy.pool import NullPool
 from knockoff.sdk.db import KnockoffDB, DefaultDatabaseService
 from knockoff.sdk.blueprint import Blueprint
 
+
 class KnockoffContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
 

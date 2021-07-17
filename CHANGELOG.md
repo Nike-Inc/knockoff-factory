@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.1.x` Releases - [4.1.0](#410)
+- `4.1.x` Releases - [4.1.0](#410) | [4.2.0](#420)
 - `4.0.x` Releases - [4.0.0](#400)
 
 #### 3.x Releases
@@ -38,6 +38,28 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+
+## 4.2.0
+
+#### Added
+- Add --ephemeral flag for `knockoff run` CLI to create temp database for loading knockoff configuration from sdk
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+- Add unit tests for KnockoffDB.build and `knockoff run` CLI
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+- Documentation and jupyter notebook for TempDatabaseService
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+- Documentation and jupyter notebook for KnockoffDB
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+
+
+#### Updated
+- Moved legacy YAML based knockoff cli from README.md to legacy.MD 
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+    
+#### Fixed
+
 ---
 
 ## 4.1.0

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "knockoff"
-version = "4.1.0"
+version = "4.1.1"
 description = "Library for generating and bootstrapping mock data"
 authors = ["Gregory Yu <gregory.yu@nike.com>"]
 readme = "README.md"
