@@ -22,3 +22,11 @@ class EnvironmentVariable(object):
 
     def set(self, value):
         os.environ[self.variable] = value
+
+
+def clear_env_vars(env_vars):
+    for variable in env_vars:
+        try:
+            del os.environ[variable]
+        except KeyError:
+            pass

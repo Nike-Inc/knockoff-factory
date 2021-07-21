@@ -11,10 +11,12 @@ from collections import namedtuple
 from mock import MagicMock, call
 
 from knockoff.tempdb.db import TempDatabaseService
+from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
 
 
 TEMP_URL = 'tempurl'
 URL = 'url'
+
 
 def make_setup_teardown(some_mock):
     def dummy_setup_teardown(url):
@@ -30,6 +32,7 @@ def bad_setup_teardown1(url):
     yield TEMP_URL
     yield TEMP_URL
 
+
 def bad_setup_teardown2(url):
     return
 
@@ -41,6 +44,7 @@ TempDBFixture = namedtuple(
      'mock_setup_teardown',
      'temp_db_service']
 )
+
 
 @pytest.fixture(scope="function")
 def temp_db_fixture():
@@ -57,6 +61,10 @@ def temp_db_fixture():
                         temp_db_service=temp_db_service)
 
 
+@pytest.mark.skipif(
+    not TEST_POSTGRES_ENABLED,
+    reason="postgres not available"
+)
 class TestTempDatabaseService(object):
 
     def test_temp_database_service(self, temp_db_fixture):

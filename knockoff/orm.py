@@ -5,11 +5,11 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import os
 import pandas as pd
 from sqlalchemy.pool import NullPool
 
 from .utilities.orm.sql import EngineBuilder
+from .utilities.environ import clear_env_vars
 
 
 KNOCKOFF_DB_URI = 'KNOCKOFF_DB_URI'
@@ -68,15 +68,6 @@ def clear_default_env_vars():
                     KNOCKOFF_DB_DRIVER,
                     KNOCKOFF_DB_NAME,
                     KNOCKOFF_DB_URI])
-
-
-def clear_env_vars(env_vars):
-    # TODO: move to knockoff.utilities.environ
-    for variable in env_vars:
-        try:
-            del os.environ[variable]
-        except KeyError:
-            pass
 
 
 def register_engine(name, config):

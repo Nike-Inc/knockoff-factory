@@ -8,6 +8,7 @@ from collections import namedtuple
 
 from knockoff.utilities.importlib_utils import resolve_package_name
 
+
 class Blueprint(object):
 
     ConstructionResult = namedtuple('ConstructionResult', [
