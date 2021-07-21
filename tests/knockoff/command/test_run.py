@@ -4,23 +4,31 @@
 # This source code is licensed under the Apache-2.0 license found in
 # the LICENSE file in the root directory of this source tree.
 
+import pytest
 import os
+import pandas as pd
+
 from mock import MagicMock, patch
 
 from sqlalchemy import create_engine
 
 from knockoff.command import run
 from knockoff.sdk.blueprint import noplan
+from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
+
 from tests.knockoff.data_model import SOMETABLE
 
 
 HERE = os.path.dirname(__file__)
 
 CONFIG_PATH = os.path.join(HERE, "knockoff.yaml")
+CONFIG_PATH2 = os.path.join(HERE, "knockoff2.yaml")
 
+# this should only be used by test_run_command_ephemeral
 _mock_testable_input_call_count = 0
 
 SEED = 123
+
 
 def mock_testable_input(
         prompt,
@@ -37,10 +45,12 @@ def mock_testable_input(
 
     assert test_temp_db.url == "postgresql://postgres@localhost:5432/postgres"
     assert test_blueprint.plan == noplan
-    engine = create_engine(test_temp_url)
 
-    # test that the database at temp url has the configured table
-    test_knockoff_db.database_service.engine = engine
+    engine = create_engine(test_temp_url)
+    assert engine.url == test_knockoff_db.database_service.engine.url
+
+    # test that the database service has the table initialized by
+    # the TempDBService with the --ephemeral flag
     assert test_knockoff_db.database_service.has_table(SOMETABLE)
 
 
@@ -48,6 +58,10 @@ def mock_seed(i):
     assert i == SEED
 
 
+@pytest.mark.skipif(
+    not TEST_POSTGRES_ENABLED,
+    reason="postgres not available"
+)
 class TestRun:
 
     def test_run_command_ephemeral(self):
@@ -57,23 +71,38 @@ class TestRun:
                 "--ephemeral",
                 "--yaml-config",
                 CONFIG_PATH,
-            ])
-            assert _mock_testable_input_call_count == 1
-            run.main(argv=[
-                "--yaml-config",
-                os.path.join(HERE, "knockoff.yaml"),
-                # passing here since we're testing in test_run_command_seed
-                # so it feels only fair to get the coverage :)
                 "--seed", f"{SEED}"
             ])
             assert _mock_testable_input_call_count == 1
 
     def test_run_command_seed(self):
+        """
+        this test expects to connect to postgresql://postgres@localhost:5432/postgres
+        to exist, but doesn't actually do anything to the db
+        """
         with patch("knockoff.command.run.seed", mock_seed):
             run.main(argv=[
                 "--yaml-config",
-                os.path.join(HERE, "knockoff.yaml"),
-                # passing here since we're testing in test_run_command_seed
-                # so it feels only fair to get the coverage :)
+                CONFIG_PATH,
                 "--seed", f"{SEED}"
             ])
+
+    def test_run_sample_blueprint_plan(self):
+        run.clear_run_env_vars()
+        os.environ[run.KNOCKOFF_RUN_BLUEPRINT_PLAN_ENV] = (
+            "tests.knockoff.blueprint:sometable_blueprint_plan"
+        )
+
+        def mock_testable_input2(prompt, test_temp_url, **kwargs):
+            engine = create_engine(test_temp_url)
+            df = pd.read_sql_table(SOMETABLE, engine)
+            assert df.shape == (10, 7)
+
+        with patch("knockoff.command.run.testable_input", mock_testable_input2):
+            run.main(argv=[
+                "--ephemeral",
+                "--yaml-config",
+                CONFIG_PATH2
+            ])
+
+        run.clear_run_env_vars()

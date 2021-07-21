@@ -12,14 +12,21 @@ from dependency_injector import containers
 from knockoff.utilities.importlib_utils import resolve_package_name
 
 
-def get_container(package_name, config_path=None):
+def get_container(package_name,
+                  config_path=None,
+                  default_dict=None,
+                  override_dict=None):
     """parses declarative container, loads optional config, wires and returns"""
     Container = resolve_package_name(package_name)
     _validate_container_class(Container, package_name)
     container = Container()
     container.init_resources()
+    if default_dict:
+        container.config.from_dict(default_dict)
     if config_path:
         container.config.from_yaml(config_path)
+    if override_dict:
+        container.config.from_dict(override_dict)
     container.wire(modules=[sys.modules[__name__]])
     return container
 

@@ -36,7 +36,7 @@ We are working on adding more documentation and examples!
     * [KnockoffTable](notebook/KnockoffTable.ipynb)
     * [KnockoffDB](notebook/KnockoffDB.ipynb)
 * [TempDatabaseService](notebook/TempDatabaseService.ipynb)
-* Knockoff CLI
+* [Knockoff CLI](notebook/KnockoffCLI.ipynb)
 * Unit Testing Example: Sample App
 
 

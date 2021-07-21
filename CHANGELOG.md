@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.1.x` Releases - [4.1.0](#410) | [4.2.0](#420)
+- `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
+- `4.1.x` Releases - [4.1.0](#410)
 - `4.0.x` Releases - [4.0.0](#400)
 
 #### 3.x Releases
@@ -41,7 +42,28 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 4.2.1
+
+#### Added
+- Documentation and jupyter notebook for the `knockoff run` CLI
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+- Added default configurations for `knockoff run` CLI with environment variable override options
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+
+
+#### Updated
+- Moved clear_env_vars from `knockoff.orm` to `knockoff.utilities.environ` 
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    
+#### Fixed
+- Fixed issue where `knockoff run` CLI was not using the temp db created with the `--ephemeral` flag
+    - Fixed by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    
+---
+
 ## 4.2.0
+
+Note: The python package and docker image for this version was released as **4.1.1**.
 
 #### Added
 - Add --ephemeral flag for `knockoff run` CLI to create temp database for loading knockoff configuration from sdk
