@@ -7,8 +7,10 @@
 
 import six
 import pytest
-from operator import itemgetter
 import pandas as pd
+
+from operator import itemgetter
+from unittest import TestCase
 
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
@@ -287,4 +289,41 @@ class TestKnockoffTable(object):
                                  "b": [2]*3,
                                  "c": [3]*3})
         assert actual.equals(expected)
-        
+
+    def test_name_or_table_value_error(self):
+        with pytest.raises(ValueError):
+            # Need to pass SomeTable.__table__ to avoid error
+            KnockoffTable(SomeTable, size=100)
+
+    @pytest.mark.parametrize(
+        "kwargs,expected",
+        [({"drop": ["id", "json_col"], "rename": {"bool_col": "binary_col"}},
+          {"str_col", "binary_col", "dt_col",
+           "int_col", "float_col"}),
+         ({"rename": {"int_col": "integer_col",
+                      "str_col": "string_col"}},
+          {"id", "string_col", "bool_col", "dt_col",
+           "integer_col", "float_col", "json_col"}),
+         ({"drop": ["id", "json_col"]},
+          {"str_col", "bool_col", "dt_col",
+           "int_col", "float_col"})])
+    def test_table_using_drop_or_rename(self, kwargs, expected):
+        df = KnockoffTable(
+            SomeTable.__table__,
+            size=100,
+            constraints=[
+                KnockoffUniqueConstraint(['id']),
+                KnockoffUniqueConstraint(['str_col', 'int_col']),
+            ],
+            **kwargs
+        ).build()
+        actual = set(df.columns)
+        TestCase().assertSetEqual(actual, expected)
+
+    def test_no_size_provided(self):
+        with pytest.raises(ValueError):
+            KnockoffTable(SOMETABLE).build()
+
+    def test_no_columns_provided(self):
+        with pytest.raises(ValueError):
+            KnockoffTable(SOMETABLE).build(size=10)

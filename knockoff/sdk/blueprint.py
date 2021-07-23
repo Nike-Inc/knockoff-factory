@@ -10,6 +10,10 @@ from knockoff.utilities.importlib_utils import resolve_package_name
 
 
 class Blueprint(object):
+    """
+    This is a class that helps organize KnockoffDB configurations
+    and enables dependency injection vis-a-vis a Blueprint plan function.
+    """
 
     ConstructionResult = namedtuple('ConstructionResult', [
         'dfs',
@@ -18,12 +22,14 @@ class Blueprint(object):
 
     def __init__(self, plan):
         """
-        Parameters
-        ----------
-        plan: function
+        :param plan: function
             plan(knockoff_db: KnockoffDB) -> KnockoffDB
+            A Blueprint plan is a function that accepts a KnockoffDB as input
+            and returns the same instance after applying it's plan. This plan
+            is provided to the Blueprint class' __init__. The run command calls
+            the construct method of the Blueprint instance with a KnockoffDB
+            instance as an input parameter to build the DataFrames.
         """
-
         self.plan = plan
 
     @classmethod

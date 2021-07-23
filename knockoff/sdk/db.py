@@ -14,6 +14,7 @@ from sqlalchemy.exc import NoSuchTableError
 from faker import Faker
 from numpy import random
 
+from knockoff.utilities.io import to_sql
 from knockoff.orm import get_engine, get_child_tables
 from .constraints import KnockoffUniqueConstraint
 from .dag import DagService, Node
@@ -102,14 +103,23 @@ class DefaultDatabaseService(KnockoffDatabaseService):
         # TODO: handle dtype[col] = JSON different?
         if dtype:
             kwargs['dtype'] = dtype
-        # TODO: parallelize?
-        with self.engine.connect() as conn:
-            df.to_sql(name, conn,
-                      **kwargs)
+        to_sql(
+            df,
+            name,
+            str(self.engine.url),
+            parallelize=True,
+            **kwargs
+        )
 
 
 class KnockoffDB(object):
-
+    """
+    This class is responsible for orchestrating the
+    generation of knockoff data based on the knockoff
+    table definitions and dependencies provided. It
+    can also insert the data into their corresponding
+    database tables.
+    """
     def __init__(self, database_service,
                  dag_service=None,
                  seed=None):
@@ -124,12 +134,13 @@ class KnockoffDB(object):
 
     def add(self, table, insert=True, depends_on=None):
         """
-        identify table by name (for depends_on?)
-
-        build graph base on depends on
-        :param table:
-        :param insert:
-        :param depends_on:
+        :param table: KnockoffTable
+        :param insert: boolean, default True
+            If True, will attempt to insert the knockoff data into the
+            corresponding database table
+        :param depends_on: list[str], default None
+            List of table names that are the table being added has a
+            dependency on.
         :return:
         """
         # TODO: should we automatically check for KnockoffTableFactory
@@ -141,7 +152,6 @@ class KnockoffDB(object):
     def prepare(self):
         for node in self.dag_service.iter_topologically():
             node.table.prepare(database_service=self.database_service)
-
 
     def build(self):
         dfs = {}

@@ -49,7 +49,6 @@ class TestCollections(object):
         actual = factory()
         TestCase().assertDictEqual(actual, expected)
 
-
     def test_collections_factory_depends_on(self):
         def another_func(x,y):
             return {

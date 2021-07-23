@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
+- `4.3.x` Releases - [4.3.0](#430)
 - `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
 - `4.1.x` Releases - [4.1.0](#410)
 - `4.0.x` Releases - [4.0.0](#400)
@@ -42,6 +43,30 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 4.3.0
+
+#### Added
+- io utilities for parallelizing writes to sql with joblib
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+- Added rename and drop parameters for KnockoffTable
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+
+
+#### Updated
+- Parallelized DefaultDatabaseService inserts 
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+- Moved existing yaml based cli examples to examples/legacy 
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+- Renamed KnockoffTable.build_record method to KnockoffTable._build_record declaring it as private by convention   
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+- Added docstrings for KnockoffTable, ColumnFactory and CollectionsFactory   
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+
+    
+#### Fixed
+ 
+---
+
 ## 4.2.1
 
 #### Added
@@ -53,7 +78,7 @@ All notable changes to this project will be documented in this file.
 
 #### Updated
 - Moved clear_env_vars from `knockoff.orm` to `knockoff.utilities.environ` 
-    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
     
 #### Fixed
 - Fixed issue where `knockoff run` CLI was not using the temp db created with the `--ephemeral` flag
@@ -78,7 +103,7 @@ Note: The python package and docker image for this version was released as **4.1
 
 #### Updated
 - Moved legacy YAML based knockoff cli from README.md to legacy.MD 
-    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#4](https://github.com/Nike-Inc/knockoff-factory/pull/4)
     
 #### Fixed
 
