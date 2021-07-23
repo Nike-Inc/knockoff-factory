@@ -253,14 +253,6 @@ optional = false
 python-versions = ">=2.7"
 
 [[package]]
-name = "enum34"
-version = "1.1.10"
-description = "Python 3.4 Enum backported to 3.3, 3.2, 3.1, 2.7, 2.6, 2.5, and 2.4"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "faker"
 version = "8.9.0"
 description = "Faker is a Python package that generates fake data for you."
@@ -1396,7 +1388,7 @@ complete = ["Pyrseas"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7 || ^3.8"
-content-hash = "d4cf607e05016af5c3e7daa6f5b3c8781d042439fd6604b6be6a403176020c63"
+content-hash = "4cd59119feac8ef860c72e00861732e90fc3d77205dcdef790eae05baa867cfb"
 
 [metadata.files]
 aiobotocore = [
@@ -1750,11 +1742,6 @@ dotty-dict = [
 entrypoints = [
     {file = "entrypoints-0.3-py2.py3-none-any.whl", hash = "sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19"},
     {file = "entrypoints-0.3.tar.gz", hash = "sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451"},
-]
-enum34 = [
-    {file = "enum34-1.1.10-py2-none-any.whl", hash = "sha256:a98a201d6de3f2ab3db284e70a33b0f896fbf35f8086594e8c9e74b909058d53"},
-    {file = "enum34-1.1.10-py3-none-any.whl", hash = "sha256:c3858660960c984d6ab0ebad691265180da2b43f07e061c0f8dca9ef3cffd328"},
-    {file = "enum34-1.1.10.tar.gz", hash = "sha256:cce6a7477ed816bd2542d03d53db9f0db935dd013b70f336a95c73979289f248"},
 ]
 faker = [
     {file = "Faker-8.9.0-py3-none-any.whl", hash = "sha256:28ae027ce17b0d938dc0adcb827b81eea814050acd6d08f9ccacbd43cdf3c600"},

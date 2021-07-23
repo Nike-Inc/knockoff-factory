@@ -261,7 +261,7 @@ postgres@localhost:mydb> select * from transactions limit 10;
 2. Checkout the repo or download the examples folder
 3. Pull knockoff docker image: `docker pull knockoff-factory`
 ```commandline
-docker run --rm -v $PWD/examples:/examples \
+docker run --rm -v $PWD/examples/legacy:/examples \
 -e KNOCKOFF_DB_HOST='docker.for.mac.host.internal' \
 -e KNOCKOFF_DB_USER='postgres' \
 -e KNOCKOFF_DB_PASSWORD='docker' \

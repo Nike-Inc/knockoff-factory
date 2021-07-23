@@ -47,20 +47,20 @@ All notable changes to this project will be documented in this file.
 
 #### Added
 - io utilities for parallelizing writes to sql with joblib
-    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Added rename and drop parameters for KnockoffTable
-    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 
 
 #### Updated
 - Parallelized DefaultDatabaseService inserts 
-    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Moved existing yaml based cli examples to examples/legacy 
-    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Renamed KnockoffTable.build_record method to KnockoffTable._build_record declaring it as private by convention   
-    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Added docstrings for KnockoffTable, ColumnFactory and CollectionsFactory   
-    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#5](https://github.com/Nike-Inc/knockoff-factory/pull/5)
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 
     
 #### Fixed

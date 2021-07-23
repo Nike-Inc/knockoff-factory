@@ -28,7 +28,6 @@ dotty_dict = { version = ">=1.2.1" }
 networkx = { version = ">=2.2" }
 numpy = { version = ">=1.16.6" }
 six = { version = ">=1.12.0" }
-enum34 = { version = ">=1.1.9"}
 pyarrow = { version = ">=0.15.1" }
 joblib = { version = ">=0.14.1" }
 sqlalchemy-utils = { version = ">=0.32.12" }
