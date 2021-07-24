@@ -279,9 +279,6 @@ class KnockoffTable(object):
         data = {}
         for factory in self.factories:
             if isinstance(factory, (tuple, list)):
-                logger.warning("Using a tuple will be "
-                               "deprecated in newer releases."
-                               "Use ColumnFactory instead")
                 col, factory = factory
                 key_values = {col: factory()}
             elif (isinstance(factory, (ColumnFactory, CollectionsFactory)) and

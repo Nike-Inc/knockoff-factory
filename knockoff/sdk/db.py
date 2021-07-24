@@ -98,16 +98,17 @@ class DefaultDatabaseService(KnockoffDatabaseService):
                                                             name=constraint['name']))
             return constraints
 
-    def insert(self, name, df, dtype=None):
+    def insert(self, name, df, dtype=None, parallelize=True):
         kwargs = self.kwargs.copy()
         # TODO: handle dtype[col] = JSON different?
         if dtype:
             kwargs['dtype'] = dtype
+
         to_sql(
             df,
             name,
             str(self.engine.url),
-            parallelize=True,
+            parallelize=parallelize,
             **kwargs
         )
 

@@ -28,14 +28,16 @@ def to_sql(df,
            n_jobs=-1,
            **kwargs):
     logger.info("Populating table: {}".format(table))
-    if parallelize:
+    # TODO: better default for more effect parallelization?
+    nrows = df.shape[0]
+    if parallelize and nrows > chunksize:
         Parallel(n_jobs=n_jobs)(
             delayed(_to_sql)(
                 df[i:i+chunksize],
                 table,
                 url,
                 **kwargs
-            ) for i in range(0, len(df), chunksize))
+            ) for i in range(0, nrows, chunksize))
     else:
         _to_sql(df, table, url, **kwargs)
     logger.info("Populated table: {}".format(table))
