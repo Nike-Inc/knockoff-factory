@@ -18,7 +18,7 @@ class SomeTable(Base):
     """A class that can be used for testing"""
     __tablename__ = SOMETABLE
     id = Column(BigInteger, autoincrement=True)
-    str_col = Column(String)
+    str_col = Column(String(20))
     bool_col = Column(Boolean)
     dt_col = Column(DateTime)
     int_col = Column(Integer)

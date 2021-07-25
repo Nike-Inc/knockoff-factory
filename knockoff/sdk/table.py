@@ -202,9 +202,10 @@ class KnockoffTable(object):
             if database_service is None:
                 raise ValueError("DatabaseService required for autoload. Must be "
                                  "provided at __init__ or self.prepare(..)")
-            table = database_service.reflect_table(self.name)
-            columns, types = zip(*[(c.name, c.type.python_type) for c in table.c])
-            dtype.update(dict(zip(columns, types)))
+
+            schema = database_service.reflect_schema(self.name)
+            columns = schema.columns
+            dtype.update(schema.dtype)
 
             if not self.ignore_constraints_on_autoload:
                 constraints = database_service.reflect_unique_constraints(self.name)

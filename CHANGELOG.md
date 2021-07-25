@@ -50,9 +50,15 @@ All notable changes to this project will be documented in this file.
     - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Added rename and drop parameters for KnockoffTable
     - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
+- Added support for MySQL to TempDatabaseService (`knockoff.tempdb.setup_teardown:mysql_setup_teardown`)
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
+- Added reflect_schema method to KnockoffDatabaseService
+    - Added by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 
 
 #### Updated
+- Moved `knockoff.testing_postgresql` modules to `knockoff.utilities.testing.postgresql` 
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Parallelized DefaultDatabaseService inserts 
     - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
 - Moved existing yaml based cli examples to examples/legacy 
@@ -64,6 +70,8 @@ All notable changes to this project will be documented in this file.
 
     
 #### Fixed
+- Fixed DefaultDatabaseService's reflect_table method for MySql  
+    - Updated by [Gregory Yu](https://github.com/gregyu) in Pull Request [#6](https://github.com/Nike-Inc/knockoff-factory/pull/6)
  
 ---
 

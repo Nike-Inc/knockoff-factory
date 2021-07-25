@@ -22,7 +22,12 @@ Table of content
 # <a name="installation"></a> Installation
 ```shell script
 pip install knockoff
+
+# to install with PyMySQL 
+pip install knockoff[mysql]
+# Note: Other MySql DBAPI's can be used if installed and dialect provided in connection url
 ```
+
 
 # <a name="changelog"></a> Changelog
 
@@ -60,14 +65,22 @@ ephemeral postgres instances per fixture.
 If postgres is not available, dependent tests can be disabled with the
 following: `export TEST_POSTGRES_ENABLED=0`.
 
+Some tests also depend on a MySql database instance. These tests can be 
+disabled with the following: `export TEST_MYSQL_ENABLED=0`.
+
 Create the database instance using docker:
 ```bash
+# Run postgres instance 
 docker run --rm  --name pg-docker -e POSTGRES_HOST_AUTH_METHOD=trust -d -p 5432:5432  postgres:11.9
+
+# Run mysql instance
+docker run --name mysql-docker -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3306:3306 -d mysql:8.0.26
 ```
 
 Install poetry:
 ```bash
-poetry install
+# the -E flag is so we can run the mysql unit tests with the PyMySql DBAPI
+poetry install -E mysql
 ```
 
 Run unit test:

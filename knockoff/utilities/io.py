@@ -1,7 +1,6 @@
 import logging
 
 from sqlalchemy import create_engine
-from sqlalchemy.pool import NullPool
 from joblib import Parallel, delayed
 
 logger = logging.getLogger(__name__)
@@ -14,8 +13,7 @@ def _to_sql(df, table, url, **kwargs):
         'if_exists': 'append'
     }
     to_sql_kwargs.update(kwargs)
-    # TODO: test performance without Nullpool?
-    engine = create_engine(url, poolclass=NullPool)
+    engine = create_engine(url)
     with engine.connect() as conn:
         df.to_sql(table, conn, **to_sql_kwargs)
 

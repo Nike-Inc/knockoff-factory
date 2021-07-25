@@ -1,6 +1,7 @@
 import pytest
 import pandas as pd
 from sqlalchemy.types import JSON
+from sqlalchemy import create_engine
 
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
@@ -28,38 +29,41 @@ def get_sometable_df(size):
 class TestIO:
 
     def test_to_sql(self, empty_db_with_sometable):
+        url = empty_db_with_sometable.url
         df = get_sometable_df(1000)
         to_sql(
             df,
             SOMETABLE,
-            str(empty_db_with_sometable.engine.url),
+            url,
             chunksize=100,
             dtype={'json_col': JSON}
         )
 
-        df_actual = pd.read_sql_table(
-            SOMETABLE,
-            empty_db_with_sometable.engine
-        )
+        with create_engine(url).connect() as conn:
+            df_actual = pd.read_sql_table(
+                SOMETABLE,
+                conn
+            )
 
         df = df.sort_values(by='id').reset_index(drop=True)
         df_actual = df_actual.sort_values(by='id').reset_index(drop=True)
         assert df.equals(df_actual)
 
     def test_to_sql_single_process(self, empty_db_with_sometable):
+        url = empty_db_with_sometable.url
         df = get_sometable_df(100)
         to_sql(
             df,
             SOMETABLE,
-            str(empty_db_with_sometable.engine.url),
+            url,
             parallelize=False,
             dtype={'json_col': JSON}
         )
-
-        df_actual = pd.read_sql_table(
-            SOMETABLE,
-            empty_db_with_sometable.engine
-        )
+        with create_engine(url).connect() as conn:
+            df_actual = pd.read_sql_table(
+                SOMETABLE,
+                conn
+            )
 
         df = df.sort_values(by='id').reset_index(drop=True)
         df_actual = df_actual.sort_values(by='id').reset_index(drop=True)

@@ -11,9 +11,13 @@ import pandas as pd
 from mock import MagicMock, patch
 
 from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 
 from knockoff.command import run
 from knockoff.sdk.blueprint import noplan
+from knockoff.utilities.testing.mysql import TEST_MYSQL_ENABLED
+# TODO: keeping backwards compatibility tested
+#       will need to update import once deprecated
 from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
 
 from tests.knockoff.data_model import SOMETABLE
@@ -23,6 +27,9 @@ HERE = os.path.dirname(__file__)
 
 CONFIG_PATH = os.path.join(HERE, "knockoff.yaml")
 CONFIG_PATH2 = os.path.join(HERE, "knockoff2.yaml")
+MYSQL_CONFIG_PATH = os.path.join(HERE, "mysql-knockoff.yaml")
+
+TESTABLE_INPUT_PATH = "knockoff.command.run.testable_input"
 
 # this should only be used by test_run_command_ephemeral
 _mock_testable_input_call_count = 0
@@ -48,7 +55,7 @@ def mock_testable_input(
 
     engine = create_engine(test_temp_url)
     assert engine.url == test_knockoff_db.database_service.engine.url
-
+    engine.dispose()
     # test that the database service has the table initialized by
     # the TempDBService with the --ephemeral flag
     assert test_knockoff_db.database_service.has_table(SOMETABLE)
@@ -66,7 +73,7 @@ class TestRun:
 
     def test_run_command_ephemeral(self):
         global _mock_testable_input_call_count
-        with patch("knockoff.command.run.testable_input", mock_testable_input):
+        with patch(TESTABLE_INPUT_PATH, mock_testable_input):
             run.main(argv=[
                 "--ephemeral",
                 "--yaml-config",
@@ -89,20 +96,45 @@ class TestRun:
 
     def test_run_sample_blueprint_plan(self):
         run.clear_run_env_vars()
+
+        # we are also testing the env variable override here
         os.environ[run.KNOCKOFF_RUN_BLUEPRINT_PLAN_ENV] = (
             "tests.knockoff.blueprint:sometable_blueprint_plan"
         )
 
         def mock_testable_input2(prompt, test_temp_url, **kwargs):
             engine = create_engine(test_temp_url)
-            df = pd.read_sql_table(SOMETABLE, engine)
+            with engine.connect() as conn:
+                df = pd.read_sql_table(SOMETABLE, conn)
             assert df.shape == (10, 7)
 
-        with patch("knockoff.command.run.testable_input", mock_testable_input2):
+        with patch(TESTABLE_INPUT_PATH, mock_testable_input2):
             run.main(argv=[
                 "--ephemeral",
                 "--yaml-config",
                 CONFIG_PATH2
+            ])
+
+        run.clear_run_env_vars()
+
+    @pytest.mark.skipif(
+        not TEST_MYSQL_ENABLED,
+        reason="mysql not available"
+    )
+    def test_run_mysql(self):
+        run.clear_run_env_vars()
+
+        def _mock_testable_input(prompt, test_temp_url, **kwargs):
+            engine = create_engine(test_temp_url)
+            with engine.connect() as conn:
+                df = pd.read_sql_table(SOMETABLE, conn)
+            assert df.shape == (10, 7)
+
+        with patch(TESTABLE_INPUT_PATH, _mock_testable_input):
+            run.main(argv=[
+                "--ephemeral",
+                "--yaml-config",
+                MYSQL_CONFIG_PATH
             ])
 
         run.clear_run_env_vars()
