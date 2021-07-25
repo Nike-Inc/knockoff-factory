@@ -18,8 +18,8 @@ jobs:
         poetry-version: [1.1.6]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Setup postgres service
     services:
+      # Setup postgres service
       postgres:
         image: postgres:11.9
         env:
@@ -34,7 +34,22 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
-
+      # setup mysql service
+      mysql:
+        image: mysql:8.0.26
+        env:
+          MYSQL_USER: root
+          MYSQL_DATABASE: mysql
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        # Set health checks to wait until mysql has started
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+        ports:
+          # Maps tcp port 3306 on service container to the host
+          - 3306:3306
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -48,7 +63,7 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install package
         run: |
-          poetry config virtualenvs.create false && poetry install
+          poetry config virtualenvs.create false && poetry install -E mysql
         env:
           PIP_DEFAULT_TIMEOUT: "60"
       - name: Run Test and generate coverate report
