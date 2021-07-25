@@ -12,7 +12,7 @@ DEFAULT_URL = "mysql+pymysql://root@localhost:3306/mysql"
 
 TEST_MYSQL_ENABLED = os.getenv(
     "TEST_MYSQL_ENABLED",
-    "0"  # TODO: enable by default once we add mysql container to build
+    "1"
 ).lower() in TRUTH_VALUES
 
 

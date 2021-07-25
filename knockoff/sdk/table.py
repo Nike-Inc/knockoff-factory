@@ -272,11 +272,6 @@ class KnockoffTable(object):
         return factory
 
     def _build_record(self):
-        """
-        TODO: should this be public?
-              we can make this private and
-              use apply the column changes later
-        """
         data = {}
         for factory in self.factories:
             if isinstance(factory, (tuple, list)):

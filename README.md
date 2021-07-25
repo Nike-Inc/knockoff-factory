@@ -38,10 +38,10 @@ See the [changelog](CHANGELOG.md) for a history of notable changes to knockoff.
 We are working on adding more documentation and examples!  
 
 * Knockoff SDK
-    * [KnockoffTable](KnockoffTable.ipynb)
-    * [KnockoffDB](KnockoffDB.ipynb)
-* [TempDatabaseService](TempDatabaseService.ipynb)
-* [Knockoff CLI](KnockoffCLI.ipynb)
+    * [KnockoffTable](notebook/KnockoffTable.ipynb)
+    * [KnockoffDB](notebook/KnockoffDB.ipynb)
+* [TempDatabaseService](notebook/TempDatabaseService.ipynb)
+* [Knockoff CLI](notebook/KnockoffCLI.ipynb)
 * Unit Testing Example: Sample App
 
 
