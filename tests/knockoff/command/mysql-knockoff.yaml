@@ -12,14 +12,14 @@
 
 
 database_service:
-  url: mysql+pymysql://root@localhost:3306/mysql
+  url: ${TEST_MYSQL_URL:mysql+pymysql://root@localhost:3306/mysql}
 
 blueprint:
   plan:
     package: tests.knockoff.blueprint:sometable_blueprint_plan
 
 tempdb:
-  url: mysql+pymysql://root@localhost:3306/mysql
+  url: ${TEST_MYSQL_URL:mysql+pymysql://root@localhost:3306/mysql}
   setup_teardown:
     package: knockoff.tempdb.setup_teardown:mysql_setup_teardown
   initialize_tables:
