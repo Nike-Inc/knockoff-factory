@@ -37,6 +37,7 @@ class NoEntryPointGroupError(Exception):
     def __str__(self):
         return repr(self.msg)
 
+
 class ResourceNotFoundError(Exception):
     """Exception when no entry_point_group has been set"""
     def __init__(self, msg):

@@ -18,8 +18,8 @@ jobs:
         poetry-version: [1.1.6]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Setup postgres service
     services:
+      # Setup postgres service
       postgres:
         image: postgres:11.9
         env:
@@ -34,7 +34,6 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -46,13 +45,19 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+      - name: Start MySQL service
+        # MySQL needs to be started manually (https://github.blog/changelog/2020-02-21-github-actions-breaking-change-ubuntu-virtual-environments-will-no-longer-start-the-mysql-service-automatically/)
+        run: |
+          sudo /etc/init.d/mysql start
       - name: Install package
         run: |
-          poetry config virtualenvs.create false && poetry install
+          poetry config virtualenvs.create false && poetry install -E mysql
         env:
           PIP_DEFAULT_TIMEOUT: "60"
       - name: Run Test and generate coverate report
         run: poetry run pytest --cov=./ --cov-report=xml
+        env:
+          TEST_MYSQL_URL: mysql+pymysql://root:root@localhost:3306/mysql
       - name: Upload Coverage to CodeCov
         uses: codecov/codecov-action@v1
         with:

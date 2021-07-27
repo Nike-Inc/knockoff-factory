@@ -10,6 +10,14 @@ from tests.knockoff.data_model import SOMETABLE
 
 
 def sometable_blueprint_plan(knockoff_db):
-    table = KnockoffTable(SOMETABLE, autoload=True, size=10)
+    table = KnockoffTable(
+        SOMETABLE,
+        autoload=True,
+        size=10,
+        # we drop this because it's an autoincrement table
+        # so we will offload populating this to the
+        # database sequencer
+        drop=["id"]
+    )
     knockoff_db.add(table)
     return knockoff_db

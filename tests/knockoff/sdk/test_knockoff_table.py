@@ -7,8 +7,11 @@
 
 import six
 import pytest
-from operator import itemgetter
 import pandas as pd
+
+from operator import itemgetter
+from unittest import TestCase
+from sqlalchemy import create_engine
 
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
@@ -24,7 +27,7 @@ from tests.knockoff.data_model import Base, SOMETABLE, SomeTable
 
 @pytest.fixture(scope="function")
 def empty_db_with_tbl(empty_db):
-    with empty_db.engine.connect() as conn:
+    with create_engine(empty_db.url).connect() as conn:
         Base.metadata.create_all(conn)
     yield empty_db
 
@@ -49,7 +52,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with empty_db_with_tbl.engine.connect() as conn:
+        with create_engine(empty_db_with_tbl.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -69,7 +72,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with empty_db_with_tbl.engine.connect() as conn:
+        with create_engine(empty_db_with_tbl.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -140,7 +143,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with empty_db.engine.connect() as conn:
+        with create_engine(empty_db.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         # TODO: We were initially testing against expected
@@ -169,7 +172,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with empty_db.engine.connect() as conn:
+        with create_engine(empty_db.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 2)
@@ -189,7 +192,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with empty_db_with_tbl.engine.connect() as conn:
+        with create_engine(empty_db_with_tbl.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -224,7 +227,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table2, depends_on=[SOMETABLE])
         knockoff_db.insert()
 
-        with empty_db_with_tbl.engine.connect() as conn:
+        with create_engine(empty_db_with_tbl.url).connect() as conn:
             df1 = pd.read_sql_table(SOMETABLE, conn)
             df2 = pd.read_sql_table(name, conn)
 
@@ -287,4 +290,41 @@ class TestKnockoffTable(object):
                                  "b": [2]*3,
                                  "c": [3]*3})
         assert actual.equals(expected)
-        
+
+    def test_name_or_table_value_error(self):
+        with pytest.raises(ValueError):
+            # Need to pass SomeTable.__table__ to avoid error
+            KnockoffTable(SomeTable, size=100)
+
+    @pytest.mark.parametrize(
+        "kwargs,expected",
+        [({"drop": ["id", "json_col"], "rename": {"bool_col": "binary_col"}},
+          {"str_col", "binary_col", "dt_col",
+           "int_col", "float_col"}),
+         ({"rename": {"int_col": "integer_col",
+                      "str_col": "string_col"}},
+          {"id", "string_col", "bool_col", "dt_col",
+           "integer_col", "float_col", "json_col"}),
+         ({"drop": ["id", "json_col"]},
+          {"str_col", "bool_col", "dt_col",
+           "int_col", "float_col"})])
+    def test_table_using_drop_or_rename(self, kwargs, expected):
+        df = KnockoffTable(
+            SomeTable.__table__,
+            size=100,
+            constraints=[
+                KnockoffUniqueConstraint(['id']),
+                KnockoffUniqueConstraint(['str_col', 'int_col']),
+            ],
+            **kwargs
+        ).build()
+        actual = set(df.columns)
+        TestCase().assertSetEqual(actual, expected)
+
+    def test_no_size_provided(self):
+        with pytest.raises(ValueError):
+            KnockoffTable(SOMETABLE).build()
+
+    def test_no_columns_provided(self):
+        with pytest.raises(ValueError):
+            KnockoffTable(SOMETABLE).build(size=10)

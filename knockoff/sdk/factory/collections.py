@@ -11,12 +11,42 @@ from .next_strategy.table import sample_table
 
 
 class CollectionsFactory(object):
+    """
+    CollectionsFactory is a callable that
+    wraps another callable function. Similar
+    to the ColumnFactory, this uses the depends_on
+    parameter to take advantage of previously generated
+    key-values from other factories that be passed as
+    kwargs to the wrapped function during the KnockoffTable
+    build routine.
+    """
     def __init__(self,
                  callable_,
                  columns=None,
                  rename=None,
                  drop=None,
                  depends_on=None):
+        """
+
+        :param callable_: function
+            This function should return a dict of
+            column names as keys with values
+            for a row.
+        :param columns: list[str], default None
+            Only these columns will be considered in the
+            dict returned from a call to this instance.
+        :param rename: dict[str,str], default None
+            This is a dict from the current key name to the
+            desired key name in the return dict.
+        :param drop: list[str], default None
+            This is a list of keys to drop in the return dict.
+        :param depends_on:
+            If this is not None, the strings provided here will
+            be used by the KnockoffTable as keys in the kwargs
+            when making a call to this instance. The values provided
+            for those kwargs are looked up from a dict populated with
+            previously returned key-values from calls to preceding factories.
+        """
         self.callable = callable_
         self.depends_on = depends_on
         self.columns = columns

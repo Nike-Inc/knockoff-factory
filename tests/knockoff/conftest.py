@@ -11,13 +11,24 @@ from collections import namedtuple
 
 from faker import Faker
 from numpy import random
+from sqlalchemy import create_engine
 
 from knockoff.orm import get_engine, clear_default_env_vars, KNOCKOFF_DB_URI
 from knockoff.tempdb.db import TempDatabaseService
 
+from .data_model import Base
+
+
 MockDB = namedtuple('MockDB', ["engine", "url"])
 
 KNOCKOFF_TEST_DB_URI = "KNOCKOFF_TEST_DB_URI"
+
+
+@pytest.fixture(scope="function")
+def empty_db_with_sometable(empty_db):
+    with create_engine(empty_db.url).connect() as conn:
+        Base.metadata.create_all(conn)
+    yield empty_db
 
 
 @pytest.fixture(scope="function")

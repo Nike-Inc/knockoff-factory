@@ -5,16 +5,29 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from knockoff.testing_postgresql import get_postgresql
+from knockoff.utilities.testing.postgresql import get_postgresql
+from knockoff.utilities.testing.mysql import ExternalMySql
 
 
 def postgres_setup_teardown(url):
     # setup
     postgresql = get_postgresql(url=url) # create the database
-    new_url = postgresql.url() # get new url
+    temp_url = postgresql.url()  # get temp url
 
-    # return the new url
-    yield new_url
+    # return the temp url
+    yield temp_url
 
     # teardown
     postgresql.stop()
+
+
+def mysql_setup_teardown(url):
+    # setup
+    mysql = ExternalMySql(url=url) # create the database
+    temp_url = mysql.url()  # get temp url
+
+    # return the temp url
+    yield temp_url
+
+    # teardown
+    mysql.stop()
