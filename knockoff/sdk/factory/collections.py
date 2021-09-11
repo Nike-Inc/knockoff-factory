@@ -117,7 +117,7 @@ class KnockoffFactory(object):
 class KnockoffTableFactory(KnockoffFactory):
 
     def __init__(self, table, columns=None, rename=None, drop=None,
-                 next_strategy_callable=sample_table,
+                 next_strategy_callable=None,
                  next_strategy_factory=None):
         if (next_strategy_factory is None) and (next_strategy_callable is None):
             next_strategy_callable = sample_table

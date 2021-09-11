@@ -20,11 +20,21 @@ Table of content
 * [Legacy YAML Based CLI](legacy.md)
 
 # <a name="installation"></a> Installation
+From PyPi:
 ```shell script
 pip install knockoff
 
 # to install with PyMySQL 
 pip install knockoff[mysql]
+# Note: Other MySql DBAPI's can be used if installed and dialect provided in connection url
+```
+
+From GitHub:
+```shell script
+pip install git+https://github.com/Nike-Inc/knockoff-factory#egg=knockoff
+
+# to install with PyMySQL 
+pip install git+https://github.com/Nike-Inc/knockoff-factory#egg=knockoff[mysql]
 # Note: Other MySql DBAPI's can be used if installed and dialect provided in connection url
 ```
 
