@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.3.x` Releases - [4.3.0](#430)
+- `4.3.x` Releases - [4.3.0](#430) | [4.3.1](#431)
 - `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
 - `4.1.x` Releases - [4.1.0](#410)
 - `4.0.x` Releases - [4.0.0](#400)
@@ -40,6 +40,18 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+## 4.3.1
+
+#### Fixed
+- Fixed backwards compatibility issue in KnockoffContainer with sqlalchemy breaking change for create_engine's
+positional arg changing into a kwarg, url.
+    - Fixed by [Gregory Yu](https://github.com/gregyu) in Pull Request [#7](https://github.com/Nike-Inc/knockoff-factory/pull/7) 
+- Fix KnockoffDB class so that it actually skips inserts where insert=False for a node
+    - Fixed by [Gregory Yu](https://github.com/gregyu) in Pull Request [#7](https://github.com/Nike-Inc/knockoff-factory/pull/7)
+- Fix KnockoffTableFactory so that if you pass next_strategy_factory it won't complain about also providing next_strategy_callable
+    - Fixed by [Gregory Yu](https://github.com/gregyu) in Pull Request [#7](https://github.com/Nike-Inc/knockoff-factory/pull/7)
 
 ---
 

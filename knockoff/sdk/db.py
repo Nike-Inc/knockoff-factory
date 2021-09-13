@@ -205,8 +205,6 @@ class KnockoffDB(object):
         for node in self.dag_service.iter_topologically():
             table = node.table
             table.prepare(database_service=self.database_service)
-            if not node.insert:
-                _ = node.table.build() # create table needed downstream
             dfs[table.name] = table.df
         return dfs
 
@@ -218,6 +216,7 @@ class KnockoffDB(object):
             table.prepare(database_service=self.database_service)
             if not node.insert:
                 _ = node.table.build() # create table needed downstream
+                continue
             dtype = {}
             for c, t in table.dtype.items():
                 if t == dict:

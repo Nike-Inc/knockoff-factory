@@ -17,7 +17,7 @@ class KnockoffContainer(containers.DeclarativeContainer):
 
     engine = providers.Factory(
         create_engine,
-        url=config.database_service.url,
+        config.database_service.url,
         poolclass=NullPool
     )
 
