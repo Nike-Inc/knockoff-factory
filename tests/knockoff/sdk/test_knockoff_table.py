@@ -7,6 +7,7 @@
 
 import pytest
 import pandas as pd
+import numpy as np
 
 from operator import itemgetter
 from unittest import TestCase
@@ -191,11 +192,14 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
+        for i in table.df["str_col"]:
+            assert isinstance(i, int)
+
         with create_engine(empty_db_with_tbl.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
-        assert df['str_col'].values.tolist() == ['4385', '5583', '27']
+        assert set(table.df['str_col'].values) == {int(i) for i in df['str_col']}
 
     def test_with_column_factory(self):
         choices = ["red", "blue", "green"]
