@@ -1542,7 +1542,7 @@ mysql = ["PyMySQL"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7 || ^3.8"
-content-hash = "3ddc70655baf5de05dc868bd71d7f27f87cbf45e5c3105aae84077d3a79eb437"
+content-hash = "75ae1e66568af271bc423e45a04878465de1924d037693f3a9c50820969c7678"
 
 [metadata.files]
 aiobotocore = []
