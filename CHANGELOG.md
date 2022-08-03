@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.3.x` Releases - [4.3.0](#430) | [4.3.1](#431)
+- `4.3.x` Releases - [4.3.0](#430) | [4.3.1](#431) | [4.3.2](#432)
 - `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
 - `4.1.x` Releases - [4.1.0](#410)
 - `4.0.x` Releases - [4.0.0](#400)
@@ -40,6 +40,17 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+## 4.3.2
+
+#### Removed
+- Removed dependency on six which was required for py23 compatibility.
+    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#8](https://github.com/Nike-Inc/knockoff-factory/pull/8)
+  
+#### Updated
+- Updated dependency-injector version to resolve poetry lock issue with six <=1.15.0.
+    - Updated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#8](https://github.com/Nike-Inc/knockoff-factory/pull/8)
 
 ---
 ## 4.3.1
