@@ -4,7 +4,6 @@
 # This source code is licensed under the Apache-2.0 license found in
 # the LICENSE file in the root directory of this source tree.
 
-import six
 import logging
 from abc import ABCMeta, abstractmethod
 
@@ -15,7 +14,7 @@ from knockoff.factory.component import ComponentMixin
 logger = logging.getLogger(__name__)
 
 
-class KnockoffNode(six.with_metaclass(ABCMeta, object)):
+class KnockoffNode(metaclass=ABCMeta):
 
     node_type = None
 

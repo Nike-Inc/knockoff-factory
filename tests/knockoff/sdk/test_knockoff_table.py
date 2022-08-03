@@ -5,7 +5,6 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import six
 import pytest
 import pandas as pd
 
@@ -158,8 +157,8 @@ class TestKnockoffTable(object):
         assert df.shape == (3, 2)
 
         for record in df.to_dict('records'):
-            assert (isinstance(record['col1'], six.string_types)
-                    and isinstance(record['col2'], six.string_types))
+            assert (isinstance(record['col1'], str)
+                    and isinstance(record['col2'], str))
 
     @pytest.mark.skipif(not TEST_POSTGRES_ENABLED,
                         reason="postgres not available")
@@ -180,7 +179,7 @@ class TestKnockoffTable(object):
         for record in df.to_dict('records'):
             assert isinstance(record['col1'],
                               int) and isinstance(record['col2'],
-                                                  six.string_types)
+                                                  str)
 
     @pytest.mark.skipif(not TEST_POSTGRES_ENABLED,
                     reason="postgres not available")
@@ -239,7 +238,7 @@ class TestKnockoffTable(object):
         for record in df2.to_dict('records'):
             assert itemgetter('col1', 'bool_col')(record) in tbl1_set
             assert (isinstance(record['col1'], int)
-                    and isinstance(record['col2'], six.string_types)
+                    and isinstance(record['col2'], str)
                     and isinstance(record['bool_col'], bool))
 
     def test_with_dataframe_factory(self):

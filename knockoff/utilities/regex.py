@@ -5,7 +5,6 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import six
 from abc import ABCMeta, abstractmethod
 
 from .functools import abstractproperty2to3
@@ -24,7 +23,7 @@ class InvalidStringError(ValueError):
                         repr(self.regex)))
 
 
-class RegexParser(six.with_metaclass(ABCMeta, object)):
+class RegexParser(metaclass=ABCMeta):
 
     @abstractproperty2to3
     def compiled_regex(self):
