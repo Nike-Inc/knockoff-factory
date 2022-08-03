@@ -5,9 +5,9 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import six
 import pytest
 import pandas as pd
+import numpy as np
 
 from operator import itemgetter
 from unittest import TestCase
@@ -158,8 +158,8 @@ class TestKnockoffTable(object):
         assert df.shape == (3, 2)
 
         for record in df.to_dict('records'):
-            assert (isinstance(record['col1'], six.string_types)
-                    and isinstance(record['col2'], six.string_types))
+            assert (isinstance(record['col1'], str)
+                    and isinstance(record['col2'], str))
 
     @pytest.mark.skipif(not TEST_POSTGRES_ENABLED,
                         reason="postgres not available")
@@ -180,7 +180,7 @@ class TestKnockoffTable(object):
         for record in df.to_dict('records'):
             assert isinstance(record['col1'],
                               int) and isinstance(record['col2'],
-                                                  six.string_types)
+                                                  str)
 
     @pytest.mark.skipif(not TEST_POSTGRES_ENABLED,
                     reason="postgres not available")
@@ -192,11 +192,14 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
+        for i in table.df["str_col"]:
+            assert isinstance(i, int)
+
         with create_engine(empty_db_with_tbl.url).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
-        assert df['str_col'].values.tolist() == ['4385', '5583', '27']
+        assert set(table.df['str_col'].values) == {int(i) for i in df['str_col']}
 
     def test_with_column_factory(self):
         choices = ["red", "blue", "green"]
@@ -239,7 +242,7 @@ class TestKnockoffTable(object):
         for record in df2.to_dict('records'):
             assert itemgetter('col1', 'bool_col')(record) in tbl1_set
             assert (isinstance(record['col1'], int)
-                    and isinstance(record['col2'], six.string_types)
+                    and isinstance(record['col2'], str)
                     and isinstance(record['bool_col'], bool))
 
     def test_with_dataframe_factory(self):

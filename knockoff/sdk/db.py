@@ -5,7 +5,6 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import six
 import logging
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
@@ -28,7 +27,7 @@ from .dag import DagService, Node
 logger = logging.getLogger(__name__)
 
 
-class KnockoffDatabaseService(six.with_metaclass(ABCMeta, object)):
+class KnockoffDatabaseService(metaclass=ABCMeta):
 
     Schema = namedtuple("Schema", ["columns", "dtype"])
 

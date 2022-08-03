@@ -5,7 +5,6 @@
 # the LICENSE file in the root directory of this source tree.
 
 import os
-import six
 import logging
 import itertools
 from operator import itemgetter
@@ -72,7 +71,7 @@ def load_prototype_from_components(source, assembler, node_name):
 
         function_factory = ComponentFunctionFactory()
 
-        for component_name, source_config in six.iteritems(name_to_source):
+        for component_name, source_config in name_to_source.items():
             if component_name in record:
                 continue
             strategy = source_config['strategy']
@@ -97,7 +96,7 @@ def load_prototype_from_components(source, assembler, node_name):
         if not _satisfies_unique_constraints(record, unique_constraints):
             continue
 
-        for constraint in six.iterkeys(unique_constraints):
+        for constraint in unique_constraints.keys():
             unique_constraints[constraint].add(itemgetter(*constraint)(record))
 
         records.append(itemgetter(*names)(record))
@@ -132,7 +131,7 @@ def handle_function(func, input_args=None, input_kwargs=None,
 
 def _satisfies_unique_constraints(record, constraints):
     valid_record = True
-    for constraint in six.iterkeys(constraints):
+    for constraint in constraints.keys():
         if itemgetter(*constraint)(record) in constraints[constraint]:
             valid_record = False
         if not valid_record:

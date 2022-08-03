@@ -5,12 +5,11 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import six
 from abc import ABCMeta, abstractmethod
 from operator import itemgetter
 
 
-class KnockoffConstraint(six.with_metaclass(ABCMeta, object)):
+class KnockoffConstraint(metaclass=ABCMeta):
     @abstractmethod
     def reset(self):
         """reset to initial state"""
