@@ -46,11 +46,11 @@ All notable changes to this project will be documented in this file.
 
 #### Removed
 - Removed dependency on six which was required for py23 compatibility.
-    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#8](https://github.com/Nike-Inc/knockoff-factory/pull/8)
+    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#9](https://github.com/Nike-Inc/knockoff-factory/pull/9)
   
 #### Updated
 - Updated dependency-injector version to resolve poetry lock issue with six <=1.15.0.
-    - Updated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#8](https://github.com/Nike-Inc/knockoff-factory/pull/8)
+    - Updated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#9](https://github.com/Nike-Inc/knockoff-factory/pull/9)
 
 ---
 ## 4.3.1
