@@ -21,7 +21,7 @@ psycopg2 = { version = "^2.9.5" }
 Pyrseas = { version = "^0.10.0", optional = true }
 # Restrict pandas to <2.0.0 until ready for v2 upgrade.
 pandas = { version = "~1.5.3" }
-pyaml = { version = "^23.5.9" }
+PyYaml = { version = "^6.0.0" }
 s3fs = { version = "^0.4.2" }
 ipython = { version = "^8.11" }
 faker = { version = "^18.9.0" }

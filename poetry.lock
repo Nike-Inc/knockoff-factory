@@ -1815,24 +1815,6 @@ files = [
 tests = ["pytest"]
 
 [[package]]
-name = "pyaml"
-version = "23.5.9"
-description = "PyYAML-based module to produce a bit more pretty and readable YAML-serialized data"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "pyaml-23.5.9-py3-none-any.whl", hash = "sha256:b7fa20b43c5b6e5c8b7406a2408fe533efd65a6459feff828f918342f043ef4c"},
-    {file = "pyaml-23.5.9.tar.gz", hash = "sha256:4c4b28b6fe89336000f08646f3cf1f6b68fb11e4c409626b77562e65a577273b"},
-]
-
-[package.dependencies]
-PyYAML = "*"
-
-[package.extras]
-anchors = ["unidecode"]
-
-[[package]]
 name = "pyarrow"
 version = "10.0.1"
 description = "Python library for Apache Arrow"
@@ -2774,4 +2756,4 @@ mysql = ["PyMySQL"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.10"
-content-hash = "6245b865f83271537e2bf9005f33a630bf69af281b1d8fdd09802a04444f471c"
+content-hash = "32f27ebb5f0e089e7496fdb2a14464605b5d2493d2342d8abcfb9bad51c9c98d"
