@@ -14,7 +14,6 @@ class SqlAlchemyConn(object):
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-
     def __enter__(self):
         return self
 

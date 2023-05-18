@@ -5,8 +5,7 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from mock import MagicMock
-
+from unittest.mock import MagicMock
 
 from knockoff.sdk.blueprint import Blueprint, noplan
 

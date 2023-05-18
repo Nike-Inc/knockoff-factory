@@ -16,8 +16,8 @@ import pandas as pd
 from faker import Faker
 from knockoff.exceptions import FactoryNotFound, AttemptLimitReached
 
-from .factory.column import ColumnFactory
-from .factory.collections import CollectionsFactory
+from knockoff.sdk.factory.column import ColumnFactory
+from knockoff.sdk.factory.collections import CollectionsFactory
 
 logger = logging.getLogger(__name__)
 

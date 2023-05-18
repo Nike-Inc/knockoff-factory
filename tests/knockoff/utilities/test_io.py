@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 from knockoff.sdk.table import KnockoffTable
 from knockoff.sdk.constraints import KnockoffUniqueConstraint
-from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
+from knockoff.utilities.testing.postgresql import TEST_POSTGRES_ENABLED
 from knockoff.utilities.io import to_sql
 
 from tests.knockoff.data_model import SomeTable, SOMETABLE
@@ -39,7 +39,7 @@ class TestIO:
             dtype={'json_col': JSON}
         )
 
-        with create_engine(url).connect() as conn:
+        with create_engine(url, future=True).connect() as conn:
             df_actual = pd.read_sql_table(
                 SOMETABLE,
                 conn
@@ -59,7 +59,7 @@ class TestIO:
             parallelize=False,
             dtype={'json_col': JSON}
         )
-        with create_engine(url).connect() as conn:
+        with create_engine(url, future=True).connect() as conn:
             df_actual = pd.read_sql_table(
                 SOMETABLE,
                 conn

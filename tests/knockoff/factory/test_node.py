@@ -6,8 +6,9 @@
 
 
 import unittest
-import mock
 import logging
+
+from unittest import mock
 
 from knockoff.factory.node import Table, FactoryPart
 

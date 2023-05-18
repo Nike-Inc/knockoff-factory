@@ -10,7 +10,7 @@ import argparse
 import logging
 import sys
 
-from .utilities.mixin import ResourceLocatorMixin
+from knockoff.utilities.mixin import ResourceLocatorMixin
 
 
 logger = logging.getLogger(__name__)

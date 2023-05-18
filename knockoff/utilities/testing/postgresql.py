@@ -7,7 +7,13 @@
 import os
 import testing.postgresql
 
-from .base import ExternalDB, TEST_USE_EXTERNAL_DB, TRUTH_VALUES
+from sqlalchemy import text
+
+from knockoff.utilities.testing.base import (
+    ExternalDB,
+    TEST_USE_EXTERNAL_DB,
+    TRUTH_VALUES,
+)
 
 
 DEFAULT_URL = "postgresql://postgres@localhost:5432/postgres"
@@ -19,9 +25,10 @@ TEST_POSTGRES_ENABLED = os.getenv(
 
 
 def postgres_create_db(engine, db_name):
-    with engine.connect() as conn:
-        conn.execute("commit")
-        conn.execute(f"CREATE DATABASE {db_name};")
+    with engine.begin() as conn:
+        conn.connection.set_isolation_level(0)
+        conn.execute(text(f"CREATE DATABASE {db_name};"))
+        conn.connection.set_isolation_level(1)
 
 
 def postgres_drop_db(engine, db_name):
@@ -31,10 +38,11 @@ def postgres_drop_db(engine, db_name):
         f"WHERE datname ='{db_name}'"
     )
 
-    with engine.connect() as conn:
-        conn.execute("commit")
-        conn.execute(terminate_connections_sql)
-        conn.execute("DROP DATABASE {};".format(db_name))
+    with engine.begin() as conn:
+        conn.connection.set_isolation_level(0)
+        conn.execute(text(terminate_connections_sql))
+        conn.execute(text("DROP DATABASE {};".format(db_name)))
+        conn.connection.set_isolation_level(1)
 
 
 class ExternalPostgresql(ExternalDB):

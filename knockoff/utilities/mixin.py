@@ -5,8 +5,9 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import pkg_resources
 import logging
+
+from importlib.metadata import entry_points
 
 from knockoff.exceptions import ResourceNotFoundError
 from knockoff.exceptions import NoEntryPointGroupError
@@ -38,9 +39,7 @@ class ResourceLocatorMixin(object):
                            "Registering again will override "
                            "existing resources")
         self.__resources = {}
-        for entry_point in (pkg_resources
-                            .iter_entry_points(self
-                                               .entry_point_group)):
+        for entry_point in entry_points(group=self.entry_point_group):
             self.__resources[entry_point.name] = entry_point.load()
 
     def get_resource(self, name):

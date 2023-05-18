@@ -6,7 +6,10 @@
 
 
 import os
-from .base import ExternalDB, TRUTH_VALUES
+
+from sqlalchemy import text
+
+from knockoff.utilities.testing.base import ExternalDB, TRUTH_VALUES
 
 DEFAULT_URL = "mysql+pymysql://root@localhost:3306/mysql"
 
@@ -17,8 +20,8 @@ TEST_MYSQL_ENABLED = os.getenv(
 
 
 def mysql_create_db(engine, db_name):
-    with engine.connect() as conn:
-        conn.execute("CREATE DATABASE {};".format(db_name))
+    with engine.begin() as conn:
+        conn.execute(text(f"CREATE DATABASE {db_name};"))
 
 
 def mysql_drop_db(engine, db_name):
@@ -29,9 +32,9 @@ def mysql_drop_db(engine, db_name):
         f"WHERE `db` = '{db_name}';"
     )
 
-    with engine.connect() as conn:
-        conn.execute(terminate_connections_sql)
-        conn.execute(f"DROP DATABASE {db_name};")
+    with engine.begin() as conn:
+        conn.execute(text(terminate_connections_sql))
+        conn.execute(text(f"DROP DATABASE {db_name};"))
 
 
 class ExternalMySql(ExternalDB):

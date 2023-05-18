@@ -26,7 +26,7 @@ KNOCKOFF_TEST_DB_URI = "KNOCKOFF_TEST_DB_URI"
 
 @pytest.fixture(scope="function")
 def empty_db_with_sometable(empty_db):
-    with create_engine(empty_db.url).connect() as conn:
+    with create_engine(empty_db.url, future=True).begin() as conn:
         Base.metadata.create_all(conn)
     yield empty_db
 

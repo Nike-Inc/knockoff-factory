@@ -6,10 +6,11 @@
 
 
 import pandas as pd
+
 from sqlalchemy.pool import NullPool
 
-from .utilities.orm.sql import EngineBuilder
-from .utilities.environ import clear_env_vars
+from knockoff.utilities.orm.sql import EngineBuilder
+from knockoff.utilities.environ import clear_env_vars
 
 
 KNOCKOFF_DB_URI = 'KNOCKOFF_DB_URI'
@@ -24,21 +25,19 @@ KNOCKOFF_DB_DRIVER = 'KNOCKOFF_DB_DRIVER'
 
 def execute(sql, engine=None):
     engine = engine or get_engine()
-    with engine.connect() as conn:
-        conn.execute("commit")
+    with engine.begin() as conn:
         conn.execute(sql)
 
 
 def create_database(database, engine=None):
     engine = engine or get_engine()
-    execute("create database {};".format(database),
+    execute(f"create database {database};",
             engine=engine)
 
 
 def create_user(user, password, engine=None):
     engine = engine or get_engine()
-    execute("create user {} with encrypted password '{}';"
-            .format(user, password),
+    execute(f"create user {user} with encrypted password '{password}';",
             engine=engine)
 
 

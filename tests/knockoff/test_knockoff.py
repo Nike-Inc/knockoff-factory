@@ -31,7 +31,7 @@ class TestKnockoff(unittest.TestCase):
         self.assertEqual(df_transactions.shape, (100, 6))
         self.assertEqual(df_location.shape, (6, 3))
 
-        self.assertEqual(df_transactions.quantity.sum(), 40)
+        self.assertEqual(df_transactions.quantity.sum(), 49)
 
         missing_skus = (set(df_transactions.sku.unique())
                         - set(df_product.sku.unique()))

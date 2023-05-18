@@ -7,7 +7,6 @@
 
 import pytest
 import pandas as pd
-import numpy as np
 
 from operator import itemgetter
 from unittest import TestCase
@@ -20,14 +19,14 @@ from knockoff.sdk.factory.column import ChoiceFactory, FakerFactory, ColumnFacto
 from knockoff.sdk.factory.collections import KnockoffTableFactory, KnockoffDataFrameFactory
 from knockoff.sdk.factory.next_strategy.df import cycle_df_factory
 from knockoff.exceptions import AttemptLimitReached
-from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
+from knockoff.utilities.testing.postgresql import TEST_POSTGRES_ENABLED
 
 from tests.knockoff.data_model import Base, SOMETABLE, SomeTable
 
 
 @pytest.fixture(scope="function")
 def empty_db_with_tbl(empty_db):
-    with create_engine(empty_db.url).connect() as conn:
+    with create_engine(empty_db.url, future=True).begin() as conn:
         Base.metadata.create_all(conn)
     yield empty_db
 
@@ -52,7 +51,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with create_engine(empty_db_with_tbl.url).connect() as conn:
+        with create_engine(empty_db_with_tbl.url, future=True).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -72,7 +71,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with create_engine(empty_db_with_tbl.url).connect() as conn:
+        with create_engine(empty_db_with_tbl.url, future=True).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -143,7 +142,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with create_engine(empty_db.url).connect() as conn:
+        with create_engine(empty_db.url, future=True).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         # TODO: We were initially testing against expected
@@ -172,7 +171,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table)
         knockoff_db.insert()
 
-        with create_engine(empty_db.url).connect() as conn:
+        with create_engine(empty_db.url, future=True).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 2)
@@ -195,7 +194,7 @@ class TestKnockoffTable(object):
         for i in table.df["str_col"]:
             assert isinstance(i, int)
 
-        with create_engine(empty_db_with_tbl.url).connect() as conn:
+        with create_engine(empty_db_with_tbl.url, future=True).connect() as conn:
             df = pd.read_sql_table(SOMETABLE, conn)
 
         assert df.shape == (3, 7)
@@ -211,7 +210,7 @@ class TestKnockoffTable(object):
         assert set(choices) == set(df.color.values)
 
     @pytest.mark.skipif(not TEST_POSTGRES_ENABLED,
-                    reason="postgres not available")
+                        reason="postgres not available")
     def test_with_table_factory(self, empty_db_with_tbl, knockoff_db):
 
         table = KnockoffTable(SOMETABLE,
@@ -230,7 +229,7 @@ class TestKnockoffTable(object):
         knockoff_db.add(table2, depends_on=[SOMETABLE])
         knockoff_db.insert()
 
-        with create_engine(empty_db_with_tbl.url).connect() as conn:
+        with create_engine(empty_db_with_tbl.url, future=True).connect() as conn:
             df1 = pd.read_sql_table(SOMETABLE, conn)
             df2 = pd.read_sql_table(name, conn)
 

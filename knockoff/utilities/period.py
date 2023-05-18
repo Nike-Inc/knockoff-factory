@@ -5,7 +5,7 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from .date.interval import Interval
+from knockoff.utilities.date.interval import Interval
 
 
 def generate_periods_from_intervals(bop_interval, eop_interval):

@@ -8,17 +8,13 @@ import pytest
 import os
 import pandas as pd
 
-from mock import MagicMock, patch
-
 from sqlalchemy import create_engine
-from sqlalchemy.pool import NullPool
+from unittest.mock import patch
 
 from knockoff.command import run
 from knockoff.sdk.blueprint import noplan
 from knockoff.utilities.testing.mysql import TEST_MYSQL_ENABLED
-# TODO: keeping backwards compatibility tested
-#       will need to update import once deprecated
-from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
+from knockoff.utilities.testing.postgresql import TEST_POSTGRES_ENABLED
 
 from tests.knockoff.data_model import SOMETABLE
 
@@ -40,9 +36,9 @@ SEED = 123
 def mock_testable_input(
         prompt,
         test_temp_url=None,
-        test_temp_db = None,
-        test_blueprint = None,
-        test_knockoff_db = None):
+        test_temp_db=None,
+        test_blueprint=None,
+        test_knockoff_db=None):
 
     global _mock_testable_input_call_count
     _mock_testable_input_call_count +=1

@@ -5,22 +5,18 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import sys
 import logging
 import glob
 
 import pandas as pd
 import s3fs
 from pyarrow import parquet as pq
+from io import StringIO
 
-from .utilities.functools import call_with_args_kwargs
-from .utilities.mixin import ResourceLocatorMixin
-from .orm import get_connection
+from knockoff.utilities.functools import call_with_args_kwargs
+from knockoff.utilities.mixin import ResourceLocatorMixin
+from knockoff.orm import get_connection
 
-if sys.version_info[0] < 3:
-    from StringIO import StringIO
-else:
-    from io import StringIO
 
 logger = logging.getLogger(__name__)
 

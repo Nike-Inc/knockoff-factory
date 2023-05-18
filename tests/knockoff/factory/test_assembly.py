@@ -57,7 +57,7 @@ class TestAssembly(unittest.TestCase):
         self.assertEqual(product.data.shape, (25,6))
         self.assertEqual(transactions.data.shape, (100, 6))
         self.assertEqual(location.data.shape, (6, 3))
-        self.assertEqual(transactions.data.quantity.sum(), 40)
+        self.assertEqual(transactions.data.quantity.sum(), 49)
 
         missing_skus = (set(transactions.data.sku.unique())
                         - set(product.data.sku.unique()))

@@ -8,10 +8,10 @@
 import pytest
 
 from collections import namedtuple
-from mock import MagicMock, call
+from unittest.mock import MagicMock, call
 
 from knockoff.tempdb.db import TempDatabaseService
-from knockoff.testing_postgresql import TEST_POSTGRES_ENABLED
+from knockoff.utilities.testing.postgresql import TEST_POSTGRES_ENABLED
 
 
 TEMP_URL = 'tempurl'

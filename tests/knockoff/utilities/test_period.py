@@ -5,8 +5,9 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-import mock
 import unittest
+
+from unittest import mock
 
 from knockoff.utilities.period import generate_periods_from_intervals
 from datetime import datetime

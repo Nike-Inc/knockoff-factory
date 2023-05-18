@@ -27,7 +27,7 @@ class ExternalDB:
         self.db_name = db_name or 'test_' + str(uuid4()).replace('-', '')
         self.create_db = create_db
         self.drop_db = drop_db
-        self.engine = create_engine(url)
+        self.engine = create_engine(url, future=True)
         create_db(self.engine, self.db_name)
 
     def url(self):
@@ -35,7 +35,7 @@ class ExternalDB:
         url = re.sub(
             "(?:/[A-Za-z0-9_]+)$", "/{}".format(self.db_name), str(self.engine.url)
         )
-        engine = create_engine(url, pool=NullPool)
+        engine = create_engine(url, pool=NullPool, future=True)
         url = str(engine.url)
         return url
 
