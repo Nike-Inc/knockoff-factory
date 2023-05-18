@@ -4,29 +4,27 @@
 # This source code is licensed under the Apache-2.0 license found in
 # the LICENSE file in the root directory of this source tree.
 
-from sqlalchemy import create_engine
-from sqlalchemy import Table, MetaData
+from sqlalchemy import create_engine, Table, MetaData, text
 
-from ..environ import EnvironmentVariable
+from knockoff.utilities.environ import EnvironmentVariable
 
 
 def get_table(name, engine=None, meta=None):
     engine = engine or get_engine()
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         meta = meta or MetaData()
         return Table(name, meta, autoload=True, autoload_with=conn)
 
 
 def execute(sql, engine=None):
     engine = engine or get_engine()
-    with engine.connect() as conn:
-        conn.execute("commit")
-        conn.execute(sql)
+    with engine.begin() as conn:
+        conn.execute(text(sql))
 
 
 def get_engine(uri=None, **kwargs):
     uri = uri or get_uri()
-    return create_engine(uri, **kwargs)
+    return create_engine(uri, future=True, **kwargs)
 
 
 def get_uri(user="postgres",

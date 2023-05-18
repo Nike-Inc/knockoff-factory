@@ -4,7 +4,7 @@
 # This source code is licensed under the Apache-2.0 license found in
 # the LICENSE file in the root directory of this source tree.
 
-from .setup_teardown import postgres_setup_teardown
+from knockoff.tempdb.setup_teardown import postgres_setup_teardown
 
 
 class TempDatabaseService(object):

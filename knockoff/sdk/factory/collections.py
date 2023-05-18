@@ -6,8 +6,9 @@
 
 
 import pandas as pd
-from .next_strategy.df import sample_df
-from .next_strategy.table import sample_table
+
+from knockoff.sdk.factory.next_strategy.df import sample_df
+from knockoff.sdk.factory.next_strategy.table import sample_table
 
 
 class CollectionsFactory(object):

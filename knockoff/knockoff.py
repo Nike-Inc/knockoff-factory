@@ -10,10 +10,10 @@ from numpy import random
 
 import yaml
 
-from . import orm
-from .factory.assembly import Blueprint, Assembler
-from .factory.node import Table, FactoryPart
-from .factory.node import FactoryComponent, FactoryPrototype
+from knockoff import orm
+from knockoff.factory.assembly import Blueprint, Assembler
+from knockoff.factory.node import Table, FactoryPart
+from knockoff.factory.node import FactoryComponent, FactoryPrototype
 
 
 class Knockoff(object):

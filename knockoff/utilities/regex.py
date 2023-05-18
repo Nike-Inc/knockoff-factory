@@ -7,8 +7,6 @@
 
 from abc import ABCMeta, abstractmethod
 
-from .functools import abstractproperty2to3
-
 
 class InvalidStringError(ValueError):
     """ Raised when an invalid string is encountered """
@@ -25,7 +23,8 @@ class InvalidStringError(ValueError):
 
 class RegexParser(metaclass=ABCMeta):
 
-    @abstractproperty2to3
+    @property
+    @abstractmethod
     def compiled_regex(self):
         raise NotImplementedError  # pragma: no cover
 

@@ -5,7 +5,7 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from .df import sample_df, cycle_df_factory
+from knockoff.sdk.factory.next_strategy.df import sample_df, cycle_df_factory
 
 
 def sample_table(table, **kwargs):

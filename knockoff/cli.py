@@ -18,12 +18,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import ProgrammingError
 
 from knockoff.utilities.functools import call_with_args_kwargs
-from .utilities.orm.sql import EngineBuilder
+from knockoff.utilities.orm.sql import EngineBuilder
 
-from . import orm, __version__
-from .io import ReaderFactory
-from .knockoff import Knockoff
-from .cli_v2 import setup_logger
+from knockoff import orm, __version__
+from knockoff.io import ReaderFactory
+from knockoff.knockoff import Knockoff
+from knockoff.cli_v2 import setup_logger
 
 
 logger = logging.getLogger(__name__)
@@ -65,7 +65,7 @@ def create_databases(create_database_configs):
         else:
             # the following two lines remove configuration to specific db
             url = '/'.join(parts[:-1])
-            engine = create_engine(url)
+            engine = create_engine(url, future=True)
             orm.create_database(config['name'], engine=engine)
         for user_config in config.get('users', []):
             assert_supported_db_action(db_type)

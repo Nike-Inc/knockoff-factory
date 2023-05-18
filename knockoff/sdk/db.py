@@ -21,8 +21,8 @@ from numpy import random
 
 from knockoff.utilities.io import to_sql
 from knockoff.orm import get_engine, get_child_tables
-from .constraints import KnockoffUniqueConstraint
-from .dag import DagService, Node
+from knockoff.sdk.constraints import KnockoffUniqueConstraint
+from knockoff.sdk.dag import DagService, Node
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +67,7 @@ class DefaultDatabaseService(KnockoffDatabaseService):
         self.kwargs.update(kwargs)
 
     def has_table(self, name):
-        engine = create_engine(self.url)
+        engine = create_engine(self.url, future=True)
         with engine.connect() as conn:
             return conn.dialect.has_table(conn, name)
 
@@ -89,7 +89,7 @@ class DefaultDatabaseService(KnockoffDatabaseService):
             raise
 
     def _resolve_table_name(self, name):
-        engine = create_engine(self.url)
+        engine = create_engine(self.url, future=True)
         with engine.connect() as conn:
             dialect = conn.dialect.name
             if dialect == postgresql.dialect.name:
@@ -102,9 +102,9 @@ class DefaultDatabaseService(KnockoffDatabaseService):
         if not self.has_table(name):
             raise NoSuchTableError(name)
         meta = MetaData()
-        engine = create_engine(self.url)
+        engine = create_engine(self.url, future=True)
         with engine.connect() as conn:
-            table = Table(self._resolve_table_name(name), meta, autoload=True, autoload_with=conn)
+            table = Table(self._resolve_table_name(name), meta, autoload_with=conn)
             table.name = name  # we do this in case we needed to use the resolved child table of a partition
             return table
 
@@ -128,7 +128,7 @@ class DefaultDatabaseService(KnockoffDatabaseService):
         if not self.has_table(name):
             raise NoSuchTableError(name)
         name = self._resolve_table_name(name)
-        engine = create_engine(self.url)
+        engine = create_engine(self.url, future=True)
         with engine.connect() as conn:
             insp = inspect(conn)
             response = insp.get_pk_constraint(name)
@@ -214,7 +214,7 @@ class KnockoffDB(object):
             table = node.table
             table.prepare(database_service=self.database_service)
             if not node.insert:
-                _ = node.table.build() # create table needed downstream
+                _ = node.table.build()  # create table needed downstream
                 continue
             dtype = {}
             for c, t in table.dtype.items():
