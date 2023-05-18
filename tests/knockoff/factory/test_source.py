@@ -8,13 +8,14 @@
 import os
 import sys
 import unittest
-import mock
 import logging
 import pandas as pd
 import random
 
 from datetime import date, datetime
 from faker import Faker
+from unittest import mock
+
 from knockoff.factory.source import KnockoffSource
 from knockoff.factory.part import read_part_inline, generate_part_periods
 from knockoff.factory.counterfeit import load_faker, KNOCKOFF_ATTEMPT_LIMIT_ENV

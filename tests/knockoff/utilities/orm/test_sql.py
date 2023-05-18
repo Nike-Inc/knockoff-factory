@@ -6,7 +6,7 @@
 
 
 import pytest
-import mock
+from unittest import mock
 import os
 
 from sqlalchemy.pool import NullPool
@@ -133,7 +133,7 @@ class TestSql(object):
         mock_create_engine.return_value = mock_engine
 
         engine = sql_utils.EngineBuilder.from_config(config)
-        mock_create_engine.assert_called_once_with(uri_expected)
+        mock_create_engine.assert_called_once_with(uri_expected, future=True)
         assert mock_engine == engine
 
     def test_builder_exception(self, env):
@@ -146,7 +146,7 @@ class TestSql(object):
         mock_engine = mock.Mock()
         mock_create_engine.return_value = mock_engine
         engine = env.builder1.build()
-        mock_create_engine.assert_called_once_with(env.uri1)
+        mock_create_engine.assert_called_once_with(env.uri1, future=True)
         assert mock_engine == engine
 
     def test_build_engine_kwargs(self, env, mock_create_engine):
@@ -154,6 +154,6 @@ class TestSql(object):
         mock_create_engine.return_value = mock_engine
         engine = env.builder1.build(poolclass=NullPool)
         mock_create_engine.assert_called_once_with(env.uri1,
-                                                   poolclass=NullPool)
+                                                   poolclass=NullPool, future=True)
         assert mock_engine == engine
 

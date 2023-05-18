@@ -5,7 +5,7 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import JSON, Column, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy.types import Integer, String, Boolean, DateTime, BigInteger, Float
 

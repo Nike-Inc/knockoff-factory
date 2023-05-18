@@ -5,7 +5,7 @@
 # the LICENSE file in the root directory of this source tree.
 
 
-from mock import MagicMock, patch
+from unittest.mock import patch, MagicMock
 
 from knockoff.cli_v2 import main
 

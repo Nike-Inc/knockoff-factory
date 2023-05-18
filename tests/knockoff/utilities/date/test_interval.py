@@ -6,11 +6,11 @@
 
 
 import unittest
-import mock
 
 from datetime import datetime, date
 from dateutil.relativedelta import SU, MO, TU, WE, TH, FR, SA
 from dateutil.relativedelta import relativedelta
+from unittest import mock
 
 from knockoff.utilities.date import interval
 from knockoff.utilities.regex import InvalidStringError

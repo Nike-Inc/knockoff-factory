@@ -6,11 +6,11 @@
 
 
 import pytest
+
 from unittest import TestCase
-from mock import MagicMock, patch
+from unittest.mock import patch, MagicMock
 
 from knockoff.sdk.factory.column import ColumnFactory, ChoiceFactory, FakerFactory
-from knockoff.sdk.table import KnockoffTable
 
 
 class TestColumn(object):
