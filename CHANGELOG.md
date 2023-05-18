@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
+- `4.4.x` Releases - [4.4.0](#440)
 - `4.3.x` Releases - [4.3.0](#430) | [4.3.1](#431) | [4.3.2](#432)
 - `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
 - `4.1.x` Releases - [4.1.0](#410)
@@ -40,6 +41,27 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+## 4.4.0
+
+#### Added
+- Added support for python>=3.10.10
+    - Added by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
+
+#### Updated
+- Refactored code to be compatible with SQLAlchemy v2.
+    - Updated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
+- Refactored code to use absolute imports instead of relative imports.
+    - Deprecated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
+
+#### Removed
+- Removed support for python<3.10.10.
+    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
+- Removed knockoff.testing_postresql in favor of knockoff.utilities.testing_postgresql.
+    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
+- Removed knockoff.utilities.functools.abstractproperty2to3.
+    - Removed by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#10](https://github.com/Nike-Inc/knockoff-factory/pull/10)
 
 ---
 ## 4.3.2
