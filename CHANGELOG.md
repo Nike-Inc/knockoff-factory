@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 `knockoff-factory` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 4.x Releases
-- `4.4.x` Releases - [4.4.0](#440)
+- `4.4.x` Releases - [4.4.0](#440) | [4.4.1](#441)
 - `4.3.x` Releases - [4.3.0](#430) | [4.3.1](#431) | [4.3.2](#432)
 - `4.2.x` Releases - [4.2.0](#420) | [4.2.1](#421)
 - `4.1.x` Releases - [4.1.0](#410)
@@ -41,6 +41,13 @@ All notable changes to this project will be documented in this file.
 #### Removed
 
 #### Fixed
+
+---
+## 4.4.1
+
+#### Updated
+- Updated 3rd party packages to latest compatible versions
+    - Updated by [Mohamed Abdul Huq Ismail](https://github.com/aisma7_nike) in Pull Request [#11](https://github.com/Nike-Inc/knockoff-factory/pull/11)
 
 ---
 ## 4.4.0
