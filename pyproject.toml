@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "knockoff"
-version = "4.4.0"
+version = "4.4.1"
 description = "Library for generating and bootstrapping mock data"
 authors = ["Gregory Yu <gregory.yu@nike.com>"]
 readme = "README.md"
@@ -17,32 +17,29 @@ maintainers = [
 
 [tool.poetry.dependencies]
 python = "^3.10.10"
-psycopg2 = { version = "^2.9.5" }
+psycopg2 = { version = "^2.9.9" }
 Pyrseas = { version = "^0.10.0", optional = true }
-# Restrict pandas to <2.0.0 until ready for v2 upgrade.
-pandas = { version = "~1.5.3" }
-PyYaml = { version = "^6.0.0" }
-s3fs = { version = "^0.4.2" }
-ipython = { version = "^8.11" }
-faker = { version = "^18.9.0" }
+pandas = { version = "^2.2.0" }
+PyYaml = { version = "^6.0.1" }
+s3fs = { version = "^2024.2.0" }
+faker = { version = "^23.2.1" }
 dotty_dict = { version = "^1.3.1" }
-networkx = { version = "^3.1" }
-numpy = { version = "^1.23.5" }
-pyarrow = { version = "~10.0.0" }
-joblib = { version = "^1.2.0" }
-# Restrict to <2.0.0 until databricks-sql-connector and snowflake-sqlalchemy packages
-# are compatible with SQLAlchemy>=2.0.0.
-SQLAlchemy = { version = "~1.4.48" }
-sqlalchemy-utils = { version = ">=0.41.1" }
-"testing.postgresql" = { version = ">=1.3.0" }
+networkx = { version = "^3.2.1" }
+numpy = { version = "^1.26.4" }
+pyarrow = { version = "^15.0.0" }
+joblib = { version = "^1.3.2" }
+SQLAlchemy = { version = "^2.0.27" }
+sqlalchemy-utils = { version = "^0.41.1" }
+"testing.postgresql" = { version = "^1.3.0" }
 dependency_injector = { version = "^4.41.0" }
-PyMySQL = { version = "~1.0.3", optional = true}
+PyMySQL = { version = "~1.1.0", optional = true}
 
 [tool.poetry.dev-dependencies]
-pytest = { version = "^7.2.2" }
-more-itertools = { version = "==5.0.0" }
-pytest-cov = { version = "~2.12.1" }
-jupyter = { version = "~1.0.0" }
+pytest = { version = "^8.0.1" }
+more-itertools = { version = "^10.2.0" }
+pytest-cov = { version = "^4.1.0" }
+notebook = { version = "^7.1.0" }
+ipython = { version = "^8.21.0" }
 
 [tool.poetry.extras]
 mysql = ["PyMySQL"]
